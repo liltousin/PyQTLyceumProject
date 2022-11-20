@@ -1,14 +1,23 @@
+import sqlite3
 import sys
+from random import choice
 
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QEvent
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QWidget
+from PyQt5.QtGui import QColor
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QListWidgetItem,
+    QMainWindow,
+    QMenu,
+)
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(669, 500)
+        MainWindow.resize(660, 500)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -26,11 +35,11 @@ class Ui_MainWindow(object):
             QtWidgets.QSizePolicy.Minimum,
         )
         self.horizontalLayout_9.addItem(spacerItem)
-        self.list_of_task_label = QtWidgets.QLabel(self.centralwidget)
-        self.list_of_task_label.setTextFormat(QtCore.Qt.AutoText)
-        self.list_of_task_label.setAlignment(QtCore.Qt.AlignCenter)
-        self.list_of_task_label.setObjectName("list_of_task_label")
-        self.horizontalLayout_9.addWidget(self.list_of_task_label)
+        self.task_label = QtWidgets.QLabel(self.centralwidget)
+        self.task_label.setTextFormat(QtCore.Qt.AutoText)
+        self.task_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.task_label.setObjectName("task_label")
+        self.horizontalLayout_9.addWidget(self.task_label)
         spacerItem1 = QtWidgets.QSpacerItem(
             40,
             20,
@@ -85,10 +94,10 @@ class Ui_MainWindow(object):
             QtWidgets.QSizePolicy.Minimum,
         )
         self.horizontalLayout_10.addItem(spacerItem4)
-        self.list_of_akks_label = QtWidgets.QLabel(self.centralwidget)
-        self.list_of_akks_label.setAlignment(QtCore.Qt.AlignCenter)
-        self.list_of_akks_label.setObjectName("list_of_akks_label")
-        self.horizontalLayout_10.addWidget(self.list_of_akks_label)
+        self.akks_label = QtWidgets.QLabel(self.centralwidget)
+        self.akks_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.akks_label.setObjectName("akks_label")
+        self.horizontalLayout_10.addWidget(self.akks_label)
         spacerItem5 = QtWidgets.QSpacerItem(
             40,
             20,
@@ -161,9 +170,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(
             _translate("MainWindow", "Рассылка по чатам")
         )
-        self.list_of_task_label.setText(
-            _translate("MainWindow", "Список тасков")
-        )
+        self.task_label.setText(_translate("MainWindow", "Список тасков"))
         self.add_task_btn.setText(_translate("MainWindow", "Добавить"))
         self.import_tasks_btn.setText(
             _translate("MainWindow", "Импортировать")
@@ -171,9 +178,7 @@ class Ui_MainWindow(object):
         self.export_tasks_btn.setText(
             _translate("MainWindow", "Экспортировать")
         )
-        self.list_of_akks_label.setText(
-            _translate("MainWindow", "Список аккаунтов")
-        )
+        self.akks_label.setText(_translate("MainWindow", "Список аккаунтов"))
         self.add_akk_btn.setText(_translate("MainWindow", "Добавить"))
         self.del_nwork_akks_btn.setText(
             _translate("MainWindow", "Удалить нерабочие")
@@ -186,58 +191,76 @@ class Ui_MainWindow(object):
         self.stop_tasks_btn.setText(_translate("MainWindow", "Стоп"))
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(400, 300)
-
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
-
-    def retranslateUi(self, Form):
-        _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-
-
-class Form(QWidget, Ui_Form):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-
-
 class Program(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.ban_color = QColor(255, 0, 0, 127)
+        self.not_auth_color = QColor(255, 255, 0, 127)
+        self.auth_color = QColor(0, 255, 0, 127)
         self.setupUi(self)
+        self.connection = sqlite3.connect("db.sqlite")
         self.add_akk_btn.clicked.connect(self.add_akk)
-        self.coun = 0
         self.list_of_akks_widget.installEventFilter(self)
-        self.list_of_akks_widget.itemDoubleClicked.connect(self.edit_akk)
-        self.form = Form()
+        self.list_of_akks_widget.itemDoubleClicked.connect(self.show_akk)
 
     def eventFilter(self, source, event) -> bool:
         if (
             event.type() == QEvent.ContextMenu
             and source is self.list_of_akks_widget
+            and type(source.itemAt(event.pos())) is QListWidgetItem
         ):
             menu = QMenu()
-            menu.addAction('Удалить аккаунт')
-            if menu.exec_(event.globalPos()):
+            del_akk_action = QAction('Удалить аккаунт')
+            reauth_akk_action = QAction('Переавторизовать')
+            list_of_actions = [del_akk_action]
+            if (
+                source.itemAt(event.pos()).background().color()
+                == self.not_auth_color
+            ):
+                list_of_actions.append(reauth_akk_action)
+            menu.addActions(list_of_actions)
+            if action := menu.exec_(event.globalPos()):
                 akk = source.itemAt(event.pos())
-                self.del_akk(akk)
+                if action == del_akk_action:
+                    self.del_akk(akk)
+                elif action == reauth_akk_action:
+                    self.reauth_akk(akk)
             return True
         return super().eventFilter(source, event)
 
-    def add_akk(self):
-        self.coun += 1
-        self.list_of_akks_widget.addItem(str(self.coun))
+    def upadte_view(self):
+        self.reload_akks()
+        self.reload_tasks()
 
-    def edit_akk(self, item: QtWidgets.QTableWidgetItem):
-        self.form.show()
-        print(item.text())
+    def load_akks(self):
+        pass
+
+    def add_akk(self):
+        test_item = QListWidgetItem(
+            'akk' + str(self.list_of_akks_widget.count())
+        )
+        test_item.setBackground(
+            choice((self.ban_color, self.not_auth_color, self.auth_color))
+        )
+        self.list_of_akks_widget.addItem(test_item)
+
+    def show_akk(self, akk):
+        print(akk.text())
+
+    def check_akk(self, akk):
+        pass
+
+    def reauth_akk(self, akk: QListWidgetItem):
+        print(akk.text())
 
     def del_akk(self, akk: QtWidgets.QListWidgetItem):
         akk.listWidget().takeItem(akk.listWidget().row(akk))
+
+    def load_tasks(self):
+        pass
+
+    def closeEvent(self, event):
+        self.connection.close()
 
 
 def except_hook(cls, exception, traceback):
