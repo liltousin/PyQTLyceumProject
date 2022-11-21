@@ -2,7 +2,7 @@ import sqlite3
 import sys
 from random import choice
 
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QEvent
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import (
@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import (
     QListWidgetItem,
     QMainWindow,
     QMenu,
+    QWidget,
 )
 
 
@@ -191,6 +192,129 @@ class Ui_MainWindow(object):
         self.stop_tasks_btn.setText(_translate("MainWindow", "Стоп"))
 
 
+class Ui_AddAkkForm(object):
+    def setupUi(self, AddAkkForm):
+        AddAkkForm.setObjectName("AddAkkForm")
+        AddAkkForm.resize(400, 300)
+        self.verticalLayout = QtWidgets.QVBoxLayout(AddAkkForm)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.phone_label = QtWidgets.QLabel(AddAkkForm)
+        self.phone_label.setObjectName("phone_label")
+        self.verticalLayout.addWidget(self.phone_label)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.phone_line = QtWidgets.QLineEdit(AddAkkForm)
+        self.phone_line.setMinimumSize(QtCore.QSize(0, 0))
+        self.phone_line.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.phone_line.setText("")
+        self.phone_line.setObjectName("phone_line")
+        self.horizontalLayout_2.addWidget(self.phone_line)
+        self.send_code_btn = QtWidgets.QPushButton(AddAkkForm)
+        self.send_code_btn.setEnabled(False)
+        self.send_code_btn.setObjectName("send_code_btn")
+        self.horizontalLayout_2.addWidget(self.send_code_btn)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.phone_error_label = QtWidgets.QLabel(AddAkkForm)
+        self.phone_error_label.setEnabled(True)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setUnderline(False)
+        font.setWeight(50)
+        font.setStrikeOut(False)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.phone_error_label.setFont(font)
+        self.phone_error_label.setMouseTracking(True)
+        self.phone_error_label.setMidLineWidth(0)
+        self.phone_error_label.setTextFormat(QtCore.Qt.RichText)
+        self.phone_error_label.setAlignment(
+            QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
+        )
+        self.phone_error_label.setObjectName("phone_error_label")
+        self.verticalLayout.addWidget(self.phone_error_label)
+        self.code_label = QtWidgets.QLabel(AddAkkForm)
+        self.code_label.setObjectName("code_label")
+        self.verticalLayout.addWidget(self.code_label)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.code_line = QtWidgets.QLineEdit(AddAkkForm)
+        self.code_line.setEnabled(False)
+        self.code_line.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.code_line.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.code_line.setText("")
+        self.code_line.setObjectName("code_line")
+        self.horizontalLayout_3.addWidget(self.code_line)
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.code_error_label = QtWidgets.QLabel(AddAkkForm)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.code_error_label.setFont(font)
+        self.code_error_label.setAlignment(
+            QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
+        )
+        self.code_error_label.setObjectName("code_error_label")
+        self.verticalLayout.addWidget(self.code_error_label)
+        spacerItem = QtWidgets.QSpacerItem(
+            20,
+            40,
+            QtWidgets.QSizePolicy.Minimum,
+            QtWidgets.QSizePolicy.Expanding,
+        )
+        self.verticalLayout.addItem(spacerItem)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.cancel_btn = QtWidgets.QPushButton(AddAkkForm)
+        self.cancel_btn.setMinimumSize(QtCore.QSize(156, 0))
+        self.cancel_btn.setObjectName("cancel_btn")
+        self.horizontalLayout.addWidget(self.cancel_btn)
+        self.add_akk_btn = QtWidgets.QPushButton(AddAkkForm)
+        self.add_akk_btn.setEnabled(False)
+        self.add_akk_btn.setObjectName("add_akk_btn")
+        self.horizontalLayout.addWidget(self.add_akk_btn)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+
+        self.retranslateUi(AddAkkForm)
+        QtCore.QMetaObject.connectSlotsByName(AddAkkForm)
+
+    def retranslateUi(self, AddAkkForm):
+        _translate = QtCore.QCoreApplication.translate
+        AddAkkForm.setWindowTitle(_translate("AddAkkForm", "Добавить аккаунт"))
+        self.phone_label.setText(_translate("AddAkkForm", "Номер телефона:"))
+        self.send_code_btn.setText(_translate("AddAkkForm", "Отправить код"))
+        self.phone_error_label.setText(
+            _translate(
+                "AddAkkForm",
+                "<html><head/><body><p><span style=\" color:#fc0107;\">"
+                "Неправильный номер!</span></p></body></html>",
+            )
+        )
+        self.code_label.setText(_translate("AddAkkForm", "Код:"))
+        self.code_error_label.setText(
+            _translate(
+                "AddAkkForm",
+                "<html><head/><body><p><span style=\" color:#fc0107;\">"
+                "Неверный код!</span></p></body></html>",
+            )
+        )
+        self.cancel_btn.setText(_translate("AddAkkForm", "Отмена"))
+        self.add_akk_btn.setText(_translate("AddAkkForm", "Добавить аккаунт"))
+
+
+class AddAkkForm(QWidget, Ui_AddAkkForm):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.phone_line.textChanged.connect(self.check_phone_line)
+
+    def check_phone_line(self):
+        if self.phone_line.text():
+            self.send_code_btn.setEnabled(True)
+        else:
+            self.send_code_btn.setEnabled(False)
+        self.phone_error_label.setText('')
+
+
 class Program(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -198,12 +322,26 @@ class Program(QMainWindow, Ui_MainWindow):
         self.not_auth_color = QColor(255, 255, 0, 127)
         self.auth_color = QColor(0, 255, 0, 127)
         self.setupUi(self)
+        self.add_akk_form = AddAkkForm()
+        self.add_akk_form.installEventFilter(self)
         self.connection = sqlite3.connect("db.sqlite")
+        self.setup_db()
         self.add_akk_btn.clicked.connect(self.add_akk)
         self.list_of_akks_widget.installEventFilter(self)
         self.list_of_akks_widget.itemDoubleClicked.connect(self.show_akk)
 
-    def eventFilter(self, source, event) -> bool:
+    def setup_db(self):
+        cur = self.connection.cursor()
+        cur.execute(
+            '''CREATE TABLE IF NOT EXISTS akks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT
+        UNIQUE
+        NOT NULL,
+    phone STRING UNIQUE NOT NULL)'''
+        )
+        self.connection.commit()
+
+    def eventFilter(self, source, event: QEvent) -> bool:
         if (
             event.type() == QEvent.ContextMenu
             and source is self.list_of_akks_widget
@@ -212,12 +350,13 @@ class Program(QMainWindow, Ui_MainWindow):
             menu = QMenu()
             del_akk_action = QAction('Удалить аккаунт')
             reauth_akk_action = QAction('Переавторизовать')
-            list_of_actions = [del_akk_action]
+            list_of_actions = []
             if (
                 source.itemAt(event.pos()).background().color()
                 == self.not_auth_color
             ):
                 list_of_actions.append(reauth_akk_action)
+            list_of_actions.append(del_akk_action)
             menu.addActions(list_of_actions)
             if action := menu.exec_(event.globalPos()):
                 akk = source.itemAt(event.pos())
@@ -225,6 +364,12 @@ class Program(QMainWindow, Ui_MainWindow):
                     self.del_akk(akk)
                 elif action == reauth_akk_action:
                     self.reauth_akk(akk)
+            return True
+        elif event.type() == QEvent.Show and source is self.add_akk_form:
+            self.setDisabled(True)
+            return True
+        elif event.type() == QEvent.Close and source is self.add_akk_form:
+            self.setDisabled(False)
             return True
         return super().eventFilter(source, event)
 
@@ -235,25 +380,26 @@ class Program(QMainWindow, Ui_MainWindow):
     def load_akks(self):
         pass
 
-    def add_akk(self):
-        test_item = QListWidgetItem(
-            'akk' + str(self.list_of_akks_widget.count())
-        )
-        test_item.setBackground(
-            choice((self.ban_color, self.not_auth_color, self.auth_color))
-        )
-        self.list_of_akks_widget.addItem(test_item)
-
-    def show_akk(self, akk):
-        print(akk.text())
-
     def check_akk(self, akk):
         pass
+
+    def add_akk(self):
+        self.add_akk_form.show()
+        # test_item = QListWidgetItem(
+        #     'akk' + str(self.list_of_akks_widget.count())
+        # )
+        # test_item.setBackground(
+        #     choice((self.ban_color, self.not_auth_color, self.auth_color))
+        # )
+        # self.list_of_akks_widget.addItem(test_item)
+
+    def show_akk(self, akk: QListWidgetItem):
+        print(akk.text())
 
     def reauth_akk(self, akk: QListWidgetItem):
         print(akk.text())
 
-    def del_akk(self, akk: QtWidgets.QListWidgetItem):
+    def del_akk(self, akk: QListWidgetItem):
         akk.listWidget().takeItem(akk.listWidget().row(akk))
 
     def load_tasks(self):
@@ -261,6 +407,8 @@ class Program(QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, event):
         self.connection.close()
+        if not self.add_akk_form.isHidden():
+            self.add_akk_form.close()
 
 
 def except_hook(cls, exception, traceback):
