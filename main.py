@@ -1,14 +1,14 @@
 import sqlite3
 import sys
-from random import choice
+from akk import Akk
+# from random import choice
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QEvent
-from PyQt5.QtGui import QColor
+# from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import (
     QAction,
     QApplication,
-    QListWidgetItem,
     QMainWindow,
     QMenu,
     QWidget,
@@ -302,10 +302,14 @@ class Ui_AddAkkForm(object):
 
 
 class AddAkkForm(QWidget, Ui_AddAkkForm):
-    def __init__(self):
+    def __init__(self, con):
         super().__init__()
         self.setupUi(self)
+        self.connection = con
+        self.cancel_btn.clicked.connect(self.close)
         self.phone_line.textChanged.connect(self.check_phone_line)
+        self.send_code_btn.clicked.connect(self.send_code)
+        # self.client
 
     def check_phone_line(self):
         if self.phone_line.text():
@@ -314,21 +318,22 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
             self.send_code_btn.setEnabled(False)
         self.phone_error_label.setText('')
 
+    def send_code(self):
+        pass
+
 
 class Program(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.ban_color = QColor(255, 0, 0, 127)
-        self.not_auth_color = QColor(255, 255, 0, 127)
-        self.auth_color = QColor(0, 255, 0, 127)
         self.setupUi(self)
-        self.add_akk_form = AddAkkForm()
-        self.add_akk_form.installEventFilter(self)
         self.connection = sqlite3.connect("db.sqlite")
         self.setup_db()
-        self.add_akk_btn.clicked.connect(self.add_akk)
+        self.add_akk_form = AddAkkForm(self.connection)
+        self.add_akk_form.installEventFilter(self)
+        self.add_akk_btn.clicked.connect(self.add_akk_form.show)
         self.list_of_akks_widget.installEventFilter(self)
         self.list_of_akks_widget.itemDoubleClicked.connect(self.show_akk)
+        self.list_of_akks_widget.addItem(Akk('123'))
 
     def setup_db(self):
         cur = self.connection.cursor()
@@ -345,16 +350,14 @@ class Program(QMainWindow, Ui_MainWindow):
         if (
             event.type() == QEvent.ContextMenu
             and source is self.list_of_akks_widget
-            and type(source.itemAt(event.pos())) is QListWidgetItem
+            and type(source.itemAt(event.pos())) is Akk
         ):
             menu = QMenu()
             del_akk_action = QAction('Удалить аккаунт')
             reauth_akk_action = QAction('Переавторизовать')
             list_of_actions = []
-            if (
-                source.itemAt(event.pos()).background().color()
-                == self.not_auth_color
-            ):
+            akk = source.itemAt(event.pos())
+            if self.check_akk(akk) == 'not_auth':
                 list_of_actions.append(reauth_akk_action)
             list_of_actions.append(del_akk_action)
             menu.addActions(list_of_actions)
@@ -366,40 +369,40 @@ class Program(QMainWindow, Ui_MainWindow):
                     self.reauth_akk(akk)
             return True
         elif event.type() == QEvent.Show and source is self.add_akk_form:
-            self.setDisabled(True)
+            self.setEnabled(False)
             return True
         elif event.type() == QEvent.Close and source is self.add_akk_form:
-            self.setDisabled(False)
+            self.setEnabled(True)
+            self.reload_akks()
             return True
         return super().eventFilter(source, event)
 
-    def upadte_view(self):
-        self.reload_akks()
-        self.reload_tasks()
-
-    def load_akks(self):
+    def reload_akks(self):
         pass
 
     def check_akk(self, akk):
-        pass
+        # self.ban_color = QColor(255, 0, 0, 127)
+        # self.not_auth_color = QColor(255, 255, 0, 127)
+        # self.auth_color = QColor(0, 255, 0, 127)
+        akk.background().color()
 
-    def add_akk(self):
-        self.add_akk_form.show()
-        # test_item = QListWidgetItem(
-        #     'akk' + str(self.list_of_akks_widget.count())
-        # )
-        # test_item.setBackground(
-        #     choice((self.ban_color, self.not_auth_color, self.auth_color))
-        # )
-        # self.list_of_akks_widget.addItem(test_item)
+    # def add_akk(self):
+    #     self.add_akk_form.show()
+    #     # test_item = QListWidgetItem(
+    #     #     'akk' + str(self.list_of_akks_widget.count())
+    #     # )
+    #     # test_item.setBackground(
+    #     #     choice((self.ban_color, self.not_auth_color, self.auth_color))
+    #     # )
+    #     # self.list_of_akks_widget.addItem(test_item)
 
-    def show_akk(self, akk: QListWidgetItem):
+    def show_akk(self, akk: Akk):
         print(akk.text())
 
-    def reauth_akk(self, akk: QListWidgetItem):
+    def reauth_akk(self, akk: Akk):
         print(akk.text())
 
-    def del_akk(self, akk: QListWidgetItem):
+    def del_akk(self, akk: Akk):
         akk.listWidget().takeItem(akk.listWidget().row(akk))
 
     def load_tasks(self):
