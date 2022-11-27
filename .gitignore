@@ -2,4 +2,4 @@ venv
 *.session
 db.sqlite
 __pycache__
-not_for_commits
+test
