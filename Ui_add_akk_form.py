@@ -4,7 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_AddAkkForm(object):
     def setupUi(self, AddAkkForm):
         AddAkkForm.setObjectName("AddAkkForm")
-        AddAkkForm.resize(400, 369)
+        AddAkkForm.resize(400, 350)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(AddAkkForm)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.phone_label = QtWidgets.QLabel(AddAkkForm)
@@ -38,7 +38,9 @@ class Ui_AddAkkForm(object):
         font.setStyleStrategy(QtGui.QFont.PreferDefault)
         self.phone_error_label.setFont(font)
         self.phone_error_label.setMouseTracking(True)
+        self.phone_error_label.setStyleSheet("color : red;")
         self.phone_error_label.setMidLineWidth(0)
+        self.phone_error_label.setText("")
         self.phone_error_label.setTextFormat(QtCore.Qt.RichText)
         self.phone_error_label.setAlignment(
             QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
@@ -63,6 +65,8 @@ class Ui_AddAkkForm(object):
         font = QtGui.QFont()
         font.setPointSize(11)
         self.code_error_label.setFont(font)
+        self.code_error_label.setStyleSheet("color : red;")
+        self.code_error_label.setText("")
         self.code_error_label.setAlignment(
             QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
         )
@@ -89,6 +93,8 @@ class Ui_AddAkkForm(object):
         font = QtGui.QFont()
         font.setPointSize(11)
         self.pswd_error_label.setFont(font)
+        self.pswd_error_label.setStyleSheet("color : red;")
+        self.pswd_error_label.setText("")
         self.pswd_error_label.setAlignment(
             QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
         )
@@ -123,28 +129,7 @@ class Ui_AddAkkForm(object):
         AddAkkForm.setWindowTitle(_translate("AddAkkForm", "Добавить аккаунт"))
         self.phone_label.setText(_translate("AddAkkForm", "Номер телефона:"))
         self.send_code_btn.setText(_translate("AddAkkForm", "Отправить код"))
-        self.phone_error_label.setText(
-            _translate(
-                "AddAkkForm",
-                "<html><head/><body><p><span style=\" color:#fc0107;\">"
-                "Неправильный номер!</span></p></body></html>",
-            )
-        )
         self.code_label.setText(_translate("AddAkkForm", "Код:"))
-        self.code_error_label.setText(
-            _translate(
-                "AddAkkForm",
-                "<html><head/><body><p><span style=\" color:#fc0107;\">"
-                "Неверный код!</span></p></body></html>",
-            )
-        )
         self.pswd_label.setText(_translate("AddAkkForm", "Пароль:"))
-        self.pswd_error_label.setText(
-            _translate(
-                "AddAkkForm",
-                "<html><head/><body><p><span style=\" color:#fc0107;\">"
-                "Неверный пароль!</span></p></body></html>",
-            )
-        )
         self.cancel_btn.setText(_translate("AddAkkForm", "Отмена"))
         self.add_akk_btn.setText(_translate("AddAkkForm", "Добавить аккаунт"))

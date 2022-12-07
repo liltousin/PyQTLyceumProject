@@ -8,35 +8,10 @@ from PyQt5.QtWidgets import (
     QListWidgetItem,
     QMainWindow,
     QMenu,
-    QWidget,
 )
 
-from Ui_add_akk_form import Ui_AddAkkForm
+from add_akk_form import AddAkkForm
 from Ui_main import Ui_MainWindow
-
-
-class AddAkkForm(QWidget, Ui_AddAkkForm):
-    def __init__(self, con):
-        super().__init__()
-        self.setupUi(self)
-        self.connection = con
-        self.cancel_btn.clicked.connect(self.close)
-        self.phone_line.textChanged.connect(self.check_phone_line)
-        self.send_code_btn.clicked.connect(self.send_code)
-
-    def check_phone_line(self):
-        if self.phone_line.text():
-            self.send_code_btn.setEnabled(True)
-        else:
-            self.send_code_btn.setEnabled(False)
-        self.phone_error_label.setText('')
-        self.code_line.setEnabled(False)
-
-    def send_code(self):
-        pass
-
-    def closeEvent(self, event):
-        pass
 
 
 class Program(QMainWindow, Ui_MainWindow):
@@ -90,6 +65,7 @@ class Program(QMainWindow, Ui_MainWindow):
             return True
         elif event.type() == QEvent.Close and source is self.add_akk_form:
             self.setEnabled(True)
+            self.add_akk_form.clean_form()
             self.reload_akks()
             return True
         return super().eventFilter(source, event)

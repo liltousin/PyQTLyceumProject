@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>369</height>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,11 +78,14 @@
        <property name="mouseTracking">
         <bool>true</bool>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color : red;</string>
+       </property>
        <property name="midLineWidth">
         <number>0</number>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0107;&quot;&gt;Неправильный номер!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string/>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>
@@ -132,8 +135,11 @@
          <pointsize>11</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color : red;</string>
+       </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0107;&quot;&gt;Неверный код!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -176,7 +182,11 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLineEdit" name="pswd_line"/>
+         <widget class="QLineEdit" name="pswd_line">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="pswd_error_label">
@@ -185,8 +195,11 @@
             <pointsize>11</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">color : red;</string>
+          </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0107;&quot;&gt;Неверный пароль!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignHCenter|Qt::AlignTop</set>
