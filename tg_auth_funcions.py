@@ -41,7 +41,6 @@ def code_checker(client: TelegramClient, code: str):
     try:
         client.sign_in(client._phone, code)
     except PhoneCodeInvalidError:
-        client.disconnect()
         return 'Неправильный код!'
     except SessionPasswordNeededError:
         return client
