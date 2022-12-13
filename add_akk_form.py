@@ -38,11 +38,12 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
             response = try_to_send_code(self.phone_line.text())
             if type(response) == str:
                 self.phone_error_label.setText(response)
+                self.send_code_btn.setEnabled(False)
                 if response == 'Клиент уже авторизован!':
                     cur = self.connection.cursor()
                     cur.execute(
                         'INSERT OR IGNORE INTO Akks(Phone) VALUES(?)',
-                        (self.phone_line.text(), ),
+                        (self.phone_line.text(),),
                     )
                     self.connection.commit()
 
@@ -70,12 +71,13 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                     cur = self.connection.cursor()
                     cur.execute(
                         'INSERT OR IGNORE INTO Akks(Phone) VALUES(?)',
-                        (self.phone_line.text(), ),
+                        (self.phone_line.text(),),
                     )
                     self.connection.commit()
                     self.close()
                 elif type(response) == str:
                     self.code_error_label.setText(response)
+                    self.add_akk_btn.setEnabled(False)
                 else:
                     self.code_error_label.setText('')
                     self.pswd_widget.setEnabled(True)
@@ -84,8 +86,20 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                     self.send_code_btn.setEnabled(False)
                     self.code_line.setEnabled(False)
                     self.add_akk_btn.setEnabled(False)
+                    self.pswd_line.setFocus()
             else:
                 response = password_checker(self.pswd_line.text())
+                if response == 'ok':
+                    cur = self.connection.cursor()
+                    cur.execute(
+                        'INSERT OR IGNORE INTO Akks(Phone) VALUES(?)',
+                        (self.phone_line.text(),),
+                    )
+                    self.connection.commit()
+                    self.close()
+                else:
+                    self.pswd_error_label.setText(response)
+                    self.add_akk_btn.setEnabled(False)
 
     def check_pswd_line(self):
         if self.pswd_line.text():
