@@ -88,7 +88,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                     self.add_akk_btn.setEnabled(False)
                     self.pswd_line.setFocus()
             else:
-                response = password_checker(self.pswd_line.text())
+                response = password_checker(self.client, self.pswd_line.text())
                 if response == 'ok':
                     cur = self.connection.cursor()
                     cur.execute(
