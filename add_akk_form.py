@@ -35,10 +35,11 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
 
     def send_code(self):
         if self.send_code_btn.isEnabled():
+            self.phone_line.setText(self.phone_line.text().replace(' ', ''))
             response = try_to_send_code(self.phone_line.text())
+            self.send_code_btn.setEnabled(False)
             if type(response) == str:
                 self.phone_error_label.setText(response)
-                self.send_code_btn.setEnabled(False)
                 if response == 'Клиент уже авторизован!':
                     cur = self.connection.cursor()
                     cur.execute(
