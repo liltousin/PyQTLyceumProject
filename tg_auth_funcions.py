@@ -52,7 +52,7 @@ def password_checker(client: TelegramClient, pswd: str):
     try:
         client.sign_in(password=pswd)
     except (ValueError, PasswordHashInvalidError):
-        return client
+        return 'Неверный пароль!'
     client.disconnect()
     return 'ok'
 
@@ -71,9 +71,13 @@ if __name__ == '__main__':
         code = input('code:')
         client = code_checker(client, code)
         if type(client) == TelegramClient:
-            while client:
+            while client != 'ok':
                 pswd = input('password:')
-                client = password_checker(client, pswd)
+                request = password_checker(client, pswd)
+                if type(request) == str:
+                    print(request)
+                else:
+                    client = request
         else:
             print(client)
     else:
