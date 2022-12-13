@@ -37,6 +37,14 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
             response = try_to_send_code(self.phone_line.text())
             if type(response) == str:
                 self.phone_error_label.setText(response)
+                if response == 'Клиент уже авторизован!':
+                    cur = self.connection.cursor()
+                    cur.execute(
+                        'INSERT OR IGNORE INTO Akks(Phone) VALUES(?)',
+                        (self.phone_line.text(), ),
+                    )
+                    self.connection.commit()
+
             else:
                 self.phone_error_label.setText('')
                 self.client = response

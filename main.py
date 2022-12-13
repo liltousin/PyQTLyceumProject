@@ -29,26 +29,34 @@ class Program(QMainWindow, Ui_MainWindow):
     def setup_db(self):
         cur = self.connection.cursor()
         cur.execute(
-            '''CREATE TABLE IF NOT EXISTS States (
-                StateId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
-                Name STRING UNIQUE NOT NULL)'''
+            '''
+CREATE TABLE IF NOT EXISTS Statuses (
+    StatusId INTEGER PRIMARY KEY AUTOINCREMENT
+                     NOT NULL
+                     UNIQUE,
+    Name     STRING  UNIQUE
+                     NOT NULL
+)'''
         )
         self.connection.commit()
         cur.execute(
-            '''INSERT OR IGNORE INTO States (Name) VALUES
+            '''INSERT OR IGNORE INTO Statuses (Name) VALUES
                 ('ok'), ('not_auth'), ('banned')'''
         )
         self.connection.commit()
         cur.execute(
-            '''CREATE TABLE IF NOT EXISTS Akks (
-                AkkId INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-                Phone STRING UNIQUE NOT NULL,
-                StateId INTEGER NOT NULL,
-                    FOREIGN KEY (StateId)
-                REFERENCES States (StateId)
-                    ON DELETE NO ACTION
-                    ON UPDATE NO ACTION
-            )'''
+            '''
+CREATE TABLE IF NOT EXISTS Akks (
+    AkkId    INTEGER PRIMARY KEY AUTOINCREMENT
+                     UNIQUE
+                     NOT NULL,
+    Phone    STRING  UNIQUE
+                     NOT NULL,
+    StatusId INTEGER NOT NULL
+                     REFERENCES Statuses (StatusId) ON DELETE NO ACTION
+                                                    ON UPDATE NO ACTION
+                     DEFAULT (1)
+)'''
         )
         self.connection.commit()
 
