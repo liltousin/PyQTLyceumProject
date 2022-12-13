@@ -20,6 +20,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
         self.code_line.returnPressed.connect(self.add_akk)
         self.add_akk_btn.clicked.connect(self.add_akk)
         self.pswd_line.textChanged.connect(self.check_pswd_line)
+        self.pswd_line.returnPressed.connect(self.add_akk)
 
     def check_phone_line(self):
         if self.phone_line.text():
