@@ -11,10 +11,12 @@ from telethon.errors.rpcerrorlist import (
 from telethon.sync import TelegramClient
 
 
-def try_to_send_code(phone):
+def try_to_send_code(phone: str):
     load_dotenv()
     api_id = os.getenv('api_id')
     api_hash = os.getenv('api_hash')
+    if not phone.isdecimal():
+        return 'Неверный формат номера!'
     client = TelegramClient(phone, api_id, api_hash)
     try:
         client.connect()
