@@ -28,9 +28,11 @@ def try_to_send_code(phone):
             client.send_code_request(phone)
         except PhoneNumberBannedError:
             client.disconnect()
+            client.session.delete()
             return 'Номер заблокирован!'
         except (TypeError, PhoneNumberInvalidError):
             client.disconnect()
+            client.session.delete()
             return 'Неверный формат номера!'
     return client
 
