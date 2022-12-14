@@ -12,6 +12,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
         self.setupUi(self)
         self.connection = con
         self.client = None
+        self.endflag = False
         self.cancel_btn.clicked.connect(self.close)
         self.phone_line.textChanged.connect(self.check_phone_line)
         self.phone_line.returnPressed.connect(self.send_code)
@@ -75,6 +76,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                         (self.phone_line.text(),),
                     )
                     self.connection.commit()
+                    self.endflag = True
                     self.close()
                 elif type(response) == str:
                     self.code_error_label.setText(response)
@@ -97,6 +99,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                         (self.phone_line.text(),),
                     )
                     self.connection.commit()
+                    self.endflag = True
                     self.close()
                 else:
                     self.pswd_error_label.setText(response)
@@ -112,6 +115,9 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
     def clean_form(self):
         if self.client:
             self.client.disconnect()
+            if not self.endflag:
+                self.client.session.delete()
+        self.endflag = False
         self.client = None
         self.phone_line.setText('')
         self.code_line.setText('')
