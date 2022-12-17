@@ -57,6 +57,12 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
 
             else:
                 self.phone_error_label.setText('')
+                if (
+                    self.client
+                    and self.client.session.filename
+                    != response.session.filename
+                ):
+                    self.client.session.delete()
                 self.client = response
                 self.code_line.setEnabled(True)
                 self.code_line.setText('')
