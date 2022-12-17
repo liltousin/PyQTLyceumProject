@@ -111,9 +111,9 @@ CREATE TABLE IF NOT EXISTS Akks (
         pass
 
     def closeEvent(self, event):
-        self.connection.close()
         if not self.add_akk_form.isHidden():
             self.add_akk_form.close()
+        self.connection.close()
 
 
 def except_hook(cls, exception, traceback):

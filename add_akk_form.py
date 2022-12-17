@@ -45,10 +45,10 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                     cur = self.connection.cursor()
                     cur.execute(
                         '''
-INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
-    ?,
-    (SELECT StatusId FROM Statuses WHERE Name == 'ok')
-)''',
+                    INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
+                        ?,
+                        (SELECT StatusId FROM Statuses WHERE Name == 'ok')
+                    )''',
                         (self.phone_line.text(),),
                     )
                     self.connection.commit()
@@ -59,6 +59,10 @@ INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
                 self.code_line.setEnabled(True)
                 self.code_line.setText('')
                 self.code_line.setFocus()
+        else:
+            if self.phone_error_label.text() == 'Клиент уже авторизован!':
+                self.endflag = True
+                self.close()
 
     def check_code_line(self):
         if self.code_line.text():
@@ -77,10 +81,10 @@ INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
                     cur = self.connection.cursor()
                     cur.execute(
                         '''
-INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
-    ?,
-    (SELECT StatusId FROM Statuses WHERE Name == 'ok')
-)''',
+                    INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
+                        ?,
+                        (SELECT StatusId FROM Statuses WHERE Name == 'ok')
+                    )''',
                         (self.phone_line.text(),),
                     )
                     self.connection.commit()
@@ -104,10 +108,10 @@ INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
                     cur = self.connection.cursor()
                     cur.execute(
                         '''
-INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
-    ?,
-    (SELECT StatusId FROM Statuses WHERE Name == 'ok')
-)''',
+                    INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
+                        ?,
+                        (SELECT StatusId FROM Statuses WHERE Name == 'ok')
+                    )''',
                         (self.phone_line.text(),),
                     )
                     self.connection.commit()
