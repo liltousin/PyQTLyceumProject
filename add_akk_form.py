@@ -24,6 +24,9 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
         self.pswd_line.returnPressed.connect(self.add_akk)
 
     def check_phone_line(self):
+        for i in set(self.phone_line.text()):
+            if not i.isdecimal():
+                self.phone_line.setText(self.phone_line.text().replace(i, ''))
         if self.phone_line.text():
             self.send_code_btn.setEnabled(True)
         else:
@@ -36,7 +39,6 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
 
     def send_code(self):
         if self.send_code_btn.isEnabled():
-            self.phone_line.setText(self.phone_line.text().replace(' ', ''))
             response = try_to_send_code(self.phone_line.text())
             self.send_code_btn.setEnabled(False)
             if type(response) == str:
@@ -65,6 +67,9 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                 self.close()
 
     def check_code_line(self):
+        for i in set(self.code_line.text()):
+            if not i.isdecimal():
+                self.code_line.setText(self.code_line.text().replace(i, ''))
         if self.code_line.text():
             self.add_akk_btn.setEnabled(True)
         else:
