@@ -44,6 +44,8 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
             if type(response) == str:
                 self.phone_error_label.setText(response)
                 if response == 'Клиент уже авторизован!':
+                    if self.client:
+                        self.client.session.delete()
                     cur = self.connection.cursor()
                     cur.execute(
                         '''

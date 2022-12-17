@@ -69,6 +69,7 @@ if __name__ == '__main__':
         '6283138547296',
     ]
     phone = '6285728977612'
+    phone = '6283134468453'
 
     client = try_to_send_code(phone)
     if type(client) == TelegramClient:
