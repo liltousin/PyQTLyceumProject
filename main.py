@@ -24,7 +24,7 @@ class Program(QMainWindow, Ui_MainWindow):
         self.add_akk_form.installEventFilter(self)
         self.add_akk_btn.clicked.connect(self.add_akk_form.show)
         self.list_of_akks_widget.installEventFilter(self)
-        # self.list_of_akks_widget.itemDoubleClicked.connect(self.show_akk)
+        # self.list_of_akks_widget.itemDoubleClicked.connect(self.show_akk_info)
 
     def setup_db(self):
         cur = self.connection.cursor()
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Statuses (
         self.connection.commit()
         cur.execute(
             '''INSERT OR IGNORE INTO Statuses (Name) VALUES
-                ('ok'), ('not_auth'), ('banned')'''
+                ('ok'), ('nofile'), ('notauth'), ('banned')'''
         )
         self.connection.commit()
         cur.execute(
@@ -55,7 +55,6 @@ CREATE TABLE IF NOT EXISTS Akks (
     StatusId INTEGER NOT NULL
                      REFERENCES Statuses (StatusId) ON DELETE NO ACTION
                                                     ON UPDATE NO ACTION
-                     DEFAULT (1)
 )'''
         )
         self.connection.commit()
@@ -94,9 +93,11 @@ CREATE TABLE IF NOT EXISTS Akks (
         return super().eventFilter(source, event)
 
     def reload_akks(self):
-        pass
+        cur = self.connection.cursor()
+        cur.execute('SELECT * FROM Akks')
+        print(cur.fetchall())
 
-    # def show_akk(self, akk: Akk):
+    # def show_akk_info(self, akk: QListWidgetItem):
     #     print(akk.text())
 
     # def reauth_akk(self, akk: Akk):
