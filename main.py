@@ -2,6 +2,7 @@ import sqlite3
 import sys
 
 from PyQt5.QtCore import QEvent
+from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import (
     QAction,
     QApplication,
@@ -17,6 +18,12 @@ from Ui_main import Ui_MainWindow
 class Program(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.colors = {
+            'ok': QColor(0, 255, 0, 127),
+            'nofile': QColor(255, 255, 0, 127),
+            'notauth': QColor(255, 127, 0, 127),
+            'banned': QColor(255, 0, 0, 127),
+        }
         self.setupUi(self)
         self.connection = sqlite3.connect("db.sqlite")
         self.setup_db()
@@ -94,9 +101,17 @@ CREATE TABLE IF NOT EXISTS Akks (
         return super().eventFilter(source, event)
 
     def reload_akks(self):
+        self.list_of_akks_widget.clear()
         cur = self.connection.cursor()
-        cur.execute('SELECT * FROM Akks')
-        print(cur.fetchall())
+        cur.execute(
+            '''
+        SELECT Akks.Phone, Statuses.Name FROM Akks
+        INNER JOIN Statuses ON Akks.StatusId = Statuses.StatusId'''
+        )
+        for phone, status_name in cur.fetchall():
+            item = QListWidgetItem(str(phone))
+            item.setBackground(self.colors[status_name])
+            self.list_of_akks_widget.addItem(item)
 
     # def show_akk_info(self, akk: QListWidgetItem):
     #     print(akk.text())
