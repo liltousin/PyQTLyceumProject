@@ -25,6 +25,7 @@ class Program(QMainWindow, Ui_MainWindow):
         self.add_akk_btn.clicked.connect(self.add_akk_form.show)
         self.list_of_akks_widget.installEventFilter(self)
         # self.list_of_akks_widget.itemDoubleClicked.connect(self.show_akk_info)
+        self.reload_akks()
 
     def setup_db(self):
         cur = self.connection.cursor()

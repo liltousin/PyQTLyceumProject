@@ -76,7 +76,11 @@ INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
                 if response == 'ok':
                     cur = self.connection.cursor()
                     cur.execute(
-                        'INSERT OR IGNORE INTO Akks(Phone) VALUES(?)',
+                        '''
+INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
+    ?,
+    (SELECT StatusId FROM Statuses WHERE Name == 'ok')
+)''',
                         (self.phone_line.text(),),
                     )
                     self.connection.commit()
@@ -99,7 +103,11 @@ INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
                 if response == 'ok':
                     cur = self.connection.cursor()
                     cur.execute(
-                        'INSERT OR IGNORE INTO Akks(Phone) VALUES(?)',
+                        '''
+INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
+    ?,
+    (SELECT StatusId FROM Statuses WHERE Name == 'ok')
+)''',
                         (self.phone_line.text(),),
                     )
                     self.connection.commit()
