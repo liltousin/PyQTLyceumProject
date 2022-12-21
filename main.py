@@ -81,25 +81,27 @@ CREATE TABLE IF NOT EXISTS Akks (
             list_of_actions = []
             akk = source.itemAt(event.pos())
 
-            list_of_actions.append(check_akk_action)
             if akk.background().color() == self.colors['banned']:
                 list_of_actions.append(del_akk_action)
             elif akk.background().color() == self.colors['notauth']:
                 list_of_actions.append(reauth_akk_action)
+                list_of_actions.append(check_akk_action)
             elif akk.background().color() == self.colors['nofile']:
                 list_of_actions.append(auth_akk_action)
-            list_of_actions.append(del_akk_action)
+                list_of_actions.append(check_akk_action)
+            else:
+                list_of_actions.append(check_akk_action)
             menu.addActions(list_of_actions)
 
             if action := menu.exec_(event.globalPos()):
                 if action == del_akk_action:
-                    self.del_akk(akk.text())
+                    self.del_akk(akk)
                 elif action == reauth_akk_action:
-                    self.reauth_akk(akk.text())
+                    self.reauth_akk(akk)
                 elif action == auth_akk_action:
-                    self.auth_akk(akk.text())
+                    self.auth_akk(akk)
                 elif action == check_akk_action:
-                    self.check_akk(akk.text())
+                    self.check_akk(akk)
             return True
         elif event.type() == QEvent.Show and source is self.add_akk_form:
             self.setEnabled(False)
@@ -129,21 +131,26 @@ CREATE TABLE IF NOT EXISTS Akks (
             akk.setBackground(self.colors[status_name])
             self.list_of_akks_widget.addItem(akk)
 
-    def check_akk(self, phone: str):
-        # check_status(phone)
+    def change_akk_status(self):
+        pass
+
+    def check_akk(self, akk: QListWidgetItem):
+        # if akk.background().color() != self.colors['banned']:
+        #     phone = akk.text()
+        #     check_status(phone)
         self.reload_akks()
 
-    def del_akk(self, phone: str):
+    def del_akk(self, akk: QListWidgetItem):
         # check_is_banned(phone)
         self.reload_akks()
 
-    def reauth_akk(self, phone: str):
+    def reauth_akk(self, akk: QListWidgetItem):
         # if not check_is_banned(phone):
         #   reauth_akk_form.phone = phone
         #   reauth_akk_form.show()
         pass
 
-    def auth_akk(self, phone: str):
+    def auth_akk(self, akk: QListWidgetItem):
         # check_staus(phone)
         pass
 
