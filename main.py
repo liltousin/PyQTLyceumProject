@@ -36,6 +36,7 @@ class Program(QMainWindow, Ui_MainWindow):
             event.type() == QEvent.ContextMenu
             and source is self.list_of_akks_widget
             and type(source.itemAt(event.pos())) is QListWidgetItem
+            and self.isEnabled()
         ):
             menu = QMenu()
             del_akk_action = QAction('Удалить')
@@ -63,6 +64,7 @@ class Program(QMainWindow, Ui_MainWindow):
         elif (
             event.type() == QEvent.ContextMenu
             and source is self.list_of_akks_widget
+            and self.isEnabled()
         ):
             menu = QMenu()
             update_akks_action = QAction('Обновить все')
@@ -72,14 +74,17 @@ class Program(QMainWindow, Ui_MainWindow):
                 if action == update_akks_action:
                     self.update_akks()
             return True
+
         elif event.type() == QEvent.Show and source is self.add_akk_form:
             self.setEnabled(False)
             return True
+
         elif event.type() == QEvent.Close and source is self.add_akk_form:
             self.setEnabled(True)
             self.add_akk_form.clean_form()
             self.reload_akks()
             return True
+
         return super().eventFilter(source, event)
 
     def update_akks(self):
