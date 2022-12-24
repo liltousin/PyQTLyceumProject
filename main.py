@@ -2,7 +2,6 @@ import sqlite3
 import sys
 
 from PyQt5.QtCore import QEvent
-from status_colors import STATUS_COLORS
 from PyQt5.QtWidgets import (
     QAction,
     QApplication,
@@ -12,6 +11,8 @@ from PyQt5.QtWidgets import (
 )
 
 from add_akk_form import AddAkkForm
+from sql_functions import get_akks, setup_db
+from status_colors import STATUS_COLORS
 from Ui_main import Ui_MainWindow
 
 
@@ -20,7 +21,7 @@ class Program(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.connection = sqlite3.connect("db.sqlite")
-        self.setup_db()
+        setup_db(self.connection)
         self.add_akk_form = AddAkkForm(self.connection)
         self.add_akk_form.installEventFilter(self)
         self.add_akk_btn.clicked.connect(self.add_akk_form.show)
@@ -29,39 +30,6 @@ class Program(QMainWindow, Ui_MainWindow):
         #     self.akk_info_form.show
         # )
         self.update_akks()
-
-    def setup_db(self):
-        cur = self.connection.cursor()
-        cur.execute(
-            '''
-CREATE TABLE IF NOT EXISTS Statuses (
-    StatusId INTEGER PRIMARY KEY AUTOINCREMENT
-                     NOT NULL
-                     UNIQUE,
-    Name     STRING  UNIQUE
-                     NOT NULL
-)'''
-        )
-        self.connection.commit()
-        cur.execute(
-            '''INSERT OR IGNORE INTO Statuses (Name) VALUES
-                ('ok'), ('nofile'), ('notauth'), ('banned')'''
-        )
-        self.connection.commit()
-        cur.execute(
-            '''
-CREATE TABLE IF NOT EXISTS Akks (
-    AkkId    INTEGER PRIMARY KEY AUTOINCREMENT
-                     UNIQUE
-                     NOT NULL,
-    Phone    STRING  UNIQUE
-                     NOT NULL,
-    StatusId INTEGER NOT NULL
-                     REFERENCES Statuses (StatusId) ON DELETE NO ACTION
-                                                    ON UPDATE NO ACTION
-)'''
-        )
-        self.connection.commit()
 
     def eventFilter(self, source, event: QEvent) -> bool:
         if (
@@ -120,13 +88,8 @@ CREATE TABLE IF NOT EXISTS Akks (
 
     def reload_akks(self):
         self.list_of_akks_widget.clear()
-        cur = self.connection.cursor()
-        cur.execute(
-            '''
-        SELECT Akks.Phone, Statuses.Name FROM Akks
-        INNER JOIN Statuses ON Akks.StatusId = Statuses.StatusId'''
-        )
-        for phone, status_name in cur.fetchall():
+        akks = get_akks(self.connection)
+        for phone, status_name in akks:
             akk = QListWidgetItem(str(phone))
             akk.setBackground(STATUS_COLORS[status_name])
             self.list_of_akks_widget.addItem(akk)
