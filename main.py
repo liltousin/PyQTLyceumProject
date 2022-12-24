@@ -2,7 +2,7 @@ import sqlite3
 import sys
 
 from PyQt5.QtCore import QEvent
-from PyQt5.QtGui import QColor
+from status_colors import STATUS_COLORS
 from PyQt5.QtWidgets import (
     QAction,
     QApplication,
@@ -18,12 +18,6 @@ from Ui_main import Ui_MainWindow
 class Program(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.colors = {
-            'ok': QColor(0, 255, 0, 127),
-            'nofile': QColor(255, 255, 0, 127),
-            'notauth': QColor(255, 127, 0, 127),
-            'banned': QColor(255, 0, 0, 127),
-        }
         self.setupUi(self)
         self.connection = sqlite3.connect("db.sqlite")
         self.setup_db()
@@ -82,11 +76,11 @@ CREATE TABLE IF NOT EXISTS Akks (
             list_of_actions = []
             akk = source.itemAt(event.pos())
 
-            if akk.background().color() == self.colors['banned']:
+            if akk.background().color() == STATUS_COLORS['banned']:
                 list_of_actions.append(del_akk_action)
-            elif akk.background().color() == self.colors['notauth']:
+            elif akk.background().color() == STATUS_COLORS['notauth']:
                 list_of_actions.append(reauth_akk_action)
-            elif akk.background().color() == self.colors['nofile']:
+            elif akk.background().color() == STATUS_COLORS['nofile']:
                 list_of_actions.append(auth_akk_action)
             menu.addActions(list_of_actions)
 
@@ -116,15 +110,15 @@ CREATE TABLE IF NOT EXISTS Akks (
         elif event.type() == QEvent.Close and source is self.add_akk_form:
             self.setEnabled(True)
             self.add_akk_form.clean_form()
-            self.load_akks()
+            self.reload_akks()
             return True
         return super().eventFilter(source, event)
 
     def update_akks(self):
 
-        self.load_akks()
+        self.reload_akks()
 
-    def load_akks(self):
+    def reload_akks(self):
         self.list_of_akks_widget.clear()
         cur = self.connection.cursor()
         cur.execute(
@@ -134,7 +128,7 @@ CREATE TABLE IF NOT EXISTS Akks (
         )
         for phone, status_name in cur.fetchall():
             akk = QListWidgetItem(str(phone))
-            akk.setBackground(self.colors[status_name])
+            akk.setBackground(STATUS_COLORS[status_name])
             self.list_of_akks_widget.addItem(akk)
 
     def change_akk_status(self):
@@ -142,7 +136,7 @@ CREATE TABLE IF NOT EXISTS Akks (
 
     def del_akk(self, akk: QListWidgetItem):
         # check_is_banned(phone)
-        self.load_akks()
+        self.reload_akks()
 
     def reauth_akk(self, akk: QListWidgetItem):
         # if not check_is_banned(phone):
