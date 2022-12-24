@@ -31,8 +31,10 @@ class Program(QMainWindow, Ui_MainWindow):
         self.add_akk_form.installEventFilter(self)
         self.add_akk_btn.clicked.connect(self.add_akk_form.show)
         self.list_of_akks_widget.installEventFilter(self)
-        self.list_of_akks_widget.itemDoubleClicked.connect(self.check_akk)
-        self.load_akks()
+        # self.list_of_akks_widget.itemDoubleClicked.connect(
+        #     self.akk_info_form.show
+        # )
+        self.update_akks()
 
     def setup_db(self):
         cur = self.connection.cursor()
@@ -77,7 +79,6 @@ CREATE TABLE IF NOT EXISTS Akks (
             del_akk_action = QAction('Удалить')
             reauth_akk_action = QAction('Переавторизовать')
             auth_akk_action = QAction('Авторизовать')
-            check_akk_action = QAction('Проверить аккаунт')
             list_of_actions = []
             akk = source.itemAt(event.pos())
 
@@ -85,12 +86,8 @@ CREATE TABLE IF NOT EXISTS Akks (
                 list_of_actions.append(del_akk_action)
             elif akk.background().color() == self.colors['notauth']:
                 list_of_actions.append(reauth_akk_action)
-                list_of_actions.append(check_akk_action)
             elif akk.background().color() == self.colors['nofile']:
                 list_of_actions.append(auth_akk_action)
-                list_of_actions.append(check_akk_action)
-            else:
-                list_of_actions.append(check_akk_action)
             menu.addActions(list_of_actions)
 
             if action := menu.exec_(event.globalPos()):
@@ -100,8 +97,18 @@ CREATE TABLE IF NOT EXISTS Akks (
                     self.reauth_akk(akk)
                 elif action == auth_akk_action:
                     self.auth_akk(akk)
-                elif action == check_akk_action:
-                    self.check_akk(akk)
+            return True
+        elif (
+            event.type() == QEvent.ContextMenu
+            and source is self.list_of_akks_widget
+        ):
+            menu = QMenu()
+            update_akks_action = QAction('Обновить все')
+            menu.addAction(update_akks_action)
+
+            if action := menu.exec_(event.globalPos()):
+                if action == update_akks_action:
+                    self.update_akks()
             return True
         elif event.type() == QEvent.Show and source is self.add_akk_form:
             self.setEnabled(False)
@@ -109,16 +116,15 @@ CREATE TABLE IF NOT EXISTS Akks (
         elif event.type() == QEvent.Close and source is self.add_akk_form:
             self.setEnabled(True)
             self.add_akk_form.clean_form()
-            self.reload_akks()
+            self.load_akks()
             return True
         return super().eventFilter(source, event)
 
-    def load_akks(self):
-        # for phone in cur.fetchall():
-        #   status = check_status(str(phone)
-        self.reload_akks()
+    def update_akks(self):
 
-    def reload_akks(self):
+        self.load_akks()
+
+    def load_akks(self):
         self.list_of_akks_widget.clear()
         cur = self.connection.cursor()
         cur.execute(
@@ -134,15 +140,9 @@ CREATE TABLE IF NOT EXISTS Akks (
     def change_akk_status(self):
         pass
 
-    def check_akk(self, akk: QListWidgetItem):
-        # if akk.background().color() != self.colors['banned']:
-        #     phone = akk.text()
-        #     check_status(phone)
-        self.reload_akks()
-
     def del_akk(self, akk: QListWidgetItem):
         # check_is_banned(phone)
-        self.reload_akks()
+        self.load_akks()
 
     def reauth_akk(self, akk: QListWidgetItem):
         # if not check_is_banned(phone):
