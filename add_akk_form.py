@@ -2,6 +2,7 @@ from sqlite3 import Connection
 
 from PyQt5.QtWidgets import QWidget
 
+from sql_functions import add_akk_in_db
 from tg_auth_funcions import code_checker, password_checker, try_to_send_code
 from Ui_add_akk_form import Ui_AddAkkForm
 
@@ -46,16 +47,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                 if response == 'Клиент уже авторизован!':
                     if self.client:
                         self.client.session.delete()
-                    cur = self.connection.cursor()
-                    cur.execute(
-                        '''
-                    INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
-                        ?,
-                        (SELECT StatusId FROM Statuses WHERE Name == 'ok')
-                    )''',
-                        (self.phone_line.text(),),
-                    )
-                    self.connection.commit()
+                    add_akk_in_db(self.connection, self.phone_line.text())
 
             else:
                 self.phone_error_label.setText('')
@@ -91,16 +83,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
             if not self.pswd_widget.isEnabled():
                 response = code_checker(self.client, self.code_line.text())
                 if response == 'ok':
-                    cur = self.connection.cursor()
-                    cur.execute(
-                        '''
-                    INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
-                        ?,
-                        (SELECT StatusId FROM Statuses WHERE Name == 'ok')
-                    )''',
-                        (self.phone_line.text(),),
-                    )
-                    self.connection.commit()
+                    add_akk_in_db(self.connection, self.phone_line.text())
                     self.endflag = True
                     self.close()
                 elif type(response) == str:
@@ -118,16 +101,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
             else:
                 response = password_checker(self.client, self.pswd_line.text())
                 if response == 'ok':
-                    cur = self.connection.cursor()
-                    cur.execute(
-                        '''
-                    INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
-                        ?,
-                        (SELECT StatusId FROM Statuses WHERE Name == 'ok')
-                    )''',
-                        (self.phone_line.text(),),
-                    )
-                    self.connection.commit()
+                    add_akk_in_db(self.connection, self.phone_line.text())
                     self.endflag = True
                     self.close()
                 else:
