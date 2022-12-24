@@ -6,3 +6,9 @@ STATUS_COLORS = {
     'notauth': QColor(255, 127, 0, 127),
     'banned': QColor(255, 0, 0, 127),
 }
+
+
+def get_status_from_color(color):
+    for s, c in STATUS_COLORS.items():
+        if c == color:
+            return s

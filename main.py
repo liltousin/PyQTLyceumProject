@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import (
 )
 
 from add_akk_form import AddAkkForm
+from akk_info_form import AkkInfoForm
 from sql_functions import get_akks, setup_db
 from status_colors import STATUS_COLORS
 from Ui_main import Ui_MainWindow
@@ -24,11 +25,13 @@ class Program(QMainWindow, Ui_MainWindow):
         setup_db(self.connection)
         self.add_akk_form = AddAkkForm(self.connection)
         self.add_akk_form.installEventFilter(self)
+        self.akk_info_form = AkkInfoForm(self.connection)
+        self.akk_info_form.installEventFilter(self)
         self.add_akk_btn.clicked.connect(self.add_akk_form.show)
         self.list_of_akks_widget.installEventFilter(self)
-        # self.list_of_akks_widget.itemDoubleClicked.connect(
-        #     self.akk_info_form.show
-        # )
+        self.list_of_akks_widget.itemDoubleClicked.connect(
+            self.show_akk_info_form
+        )
         self.update_akks()
 
     def eventFilter(self, source, event: QEvent) -> bool:
@@ -75,13 +78,18 @@ class Program(QMainWindow, Ui_MainWindow):
                     self.update_akks()
             return True
 
-        elif event.type() == QEvent.Show and source is self.add_akk_form:
+        elif event.type() == QEvent.Show and (
+            source is self.add_akk_form or source is self.akk_info_form
+        ):
             self.setEnabled(False)
             return True
 
-        elif event.type() == QEvent.Close and source is self.add_akk_form:
+        elif event.type() == QEvent.Close and (
+            source is self.add_akk_form or source is self.akk_info_form
+        ):
             self.setEnabled(True)
-            self.add_akk_form.clean_form()
+            if source is self.add_akk_form:
+                self.add_akk_form.clean_form()
             self.reload_akks()
             return True
 
@@ -98,6 +106,9 @@ class Program(QMainWindow, Ui_MainWindow):
             akk = QListWidgetItem(str(phone))
             akk.setBackground(STATUS_COLORS[status_name])
             self.list_of_akks_widget.addItem(akk)
+
+    def show_akk_info_form(self, akk: QListWidgetItem):
+        self.akk_info_form.set_akk(akk)
 
     def change_akk_status(self):
         pass
@@ -122,6 +133,8 @@ class Program(QMainWindow, Ui_MainWindow):
     def closeEvent(self, event):
         if not self.add_akk_form.isHidden():
             self.add_akk_form.close()
+        if not self.akk_info_form.isHidden():
+            self.akk_info_form.close()
         self.connection.close()
 
 

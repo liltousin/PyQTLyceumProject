@@ -40,7 +40,8 @@ def get_akks(connection: Connection):
     cur.execute(
         '''
     SELECT Akks.Phone, Statuses.Name FROM Akks
-    INNER JOIN Statuses ON Akks.StatusId = Statuses.StatusId'''
+    INNER JOIN Statuses ON Akks.StatusId = Statuses.StatusId
+    '''
     )
     return cur.fetchall()
 
@@ -48,11 +49,23 @@ def get_akks(connection: Connection):
 def add_akk_in_db(connection: Connection, phone: str):
     cur = connection.cursor()
     cur.execute(
-        '''
+        f'''
     INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
-        ?,
+        {phone},
         (SELECT StatusId FROM Statuses WHERE Name == 'ok')
-    )''',
-        (phone,),
+    )
+    '''
+    )
+    connection.commit()
+
+
+def set_akk_status(connection: Connection, status: str, phone: str):
+    cur = connection.cursor()
+    cur.execute(
+        f'''
+    UPDATE Akks
+    SET StatusId = (SELECT StatusId FROM Statuses WHERE Name == '{status}')
+    WHERE phone = {phone}
+    '''
     )
     connection.commit()
