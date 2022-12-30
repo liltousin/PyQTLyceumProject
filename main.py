@@ -34,7 +34,7 @@ class Program(QMainWindow, Ui_MainWindow):
         )
         self.update_akks()
 
-    def eventFilter(self, source, event: QEvent) -> bool:
+    def eventFilter(self, source, event):
         if (
             event.type() == QEvent.ContextMenu
             and source is self.list_of_akks_widget
