@@ -28,10 +28,8 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
         for i in set(self.phone_line.text()):
             if not i.isdecimal():
                 self.phone_line.setText(self.phone_line.text().replace(i, ''))
-        if self.phone_line.text():
-            self.send_code_btn.setEnabled(True)
-        else:
-            self.send_code_btn.setEnabled(False)
+
+        self.send_code_btn.setEnabled(bool(self.phone_line.text()))
         self.phone_error_label.setText('')
         self.code_line.setEnabled(False)
         self.code_line.setText('')
@@ -70,10 +68,8 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
         for i in set(self.code_line.text()):
             if not i.isdecimal():
                 self.code_line.setText(self.code_line.text().replace(i, ''))
-        if self.code_line.text():
-            self.add_akk_btn.setEnabled(True)
-        else:
-            self.add_akk_btn.setEnabled(False)
+
+        self.add_akk_btn.setEnabled(bool(self.code_line.text()))
         self.code_error_label.setText('')
         self.pswd_widget.setEnabled(False)
         self.pswd_line.setText('')
@@ -109,10 +105,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                     self.add_akk_btn.setEnabled(False)
 
     def check_pswd_line(self):
-        if self.pswd_line.text():
-            self.add_akk_btn.setEnabled(True)
-        else:
-            self.add_akk_btn.setEnabled(False)
+        self.add_akk_btn.setEnabled(bool(self.pswd_line.text()))
         self.pswd_error_label.setText('')
 
     def clean_form(self):
