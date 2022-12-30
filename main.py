@@ -102,10 +102,14 @@ class Program(QMainWindow, Ui_MainWindow):
     def reload_akks(self):
         self.list_of_akks_widget.clear()
         akks = get_akks(self.connection)
+        there_is_banned = False
         for phone, status_name in akks:
             akk = QListWidgetItem(str(phone))
             akk.setBackground(STATUS_COLORS[status_name])
             self.list_of_akks_widget.addItem(akk)
+            if status_name == 'banned':
+                there_is_banned = True
+        self.del_nwork_akks_btn.setEnabled(there_is_banned)
 
     def show_akk_info_form(self, akk: QListWidgetItem):
         self.akk_info_form.set_akk(akk)

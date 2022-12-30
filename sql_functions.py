@@ -49,12 +49,13 @@ def get_akks(connection: Connection):
 def add_akk_in_db(connection: Connection, phone: str):
     cur = connection.cursor()
     cur.execute(
-        f'''
+        '''
     INSERT OR IGNORE INTO Akks (Phone, StatusId) VALUES (
-        {phone},
+        ?,
         (SELECT StatusId FROM Statuses WHERE Name == 'ok')
     )
-    '''
+    ''',
+        (phone,),
     )
     connection.commit()
 
@@ -62,10 +63,11 @@ def add_akk_in_db(connection: Connection, phone: str):
 def set_akk_status(connection: Connection, status: str, phone: str):
     cur = connection.cursor()
     cur.execute(
-        f'''
+        '''
     UPDATE Akks
-    SET StatusId = (SELECT StatusId FROM Statuses WHERE Name == '{status}')
-    WHERE phone = {phone}
-    '''
+    SET StatusId = (SELECT StatusId FROM Statuses WHERE Name == ?)
+    WHERE phone = ?
+    ''',
+        (status, phone),
     )
     connection.commit()
