@@ -1,97 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddAkkForm</class>
- <widget class="QWidget" name="AddAkkForm">
+ <class>AuthAkkForm</class>
+ <widget class="QWidget" name="AuthAkkForm">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>350</height>
+    <height>300</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Добавить аккаунт</string>
+  <property name="font">
+   <font>
+    <weight>50</weight>
+    <bold>false</bold>
+   </font>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
+  <property name="windowTitle">
+   <string>Авторизовать аккаунт</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="phone_label">
-     <property name="text">
-      <string>Номер телефона:</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <property name="spacing">
-        <number>-1</number>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Номер телефона:</string>
        </property>
-       <item>
-        <widget class="QLineEdit" name="phone_line">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::StrongFocus</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="send_code_btn">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Отправить код</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      </widget>
      </item>
      <item>
-      <widget class="QLabel" name="phone_error_label">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
+      <widget class="QLabel" name="phone_label">
        <property name="font">
         <font>
-         <pointsize>11</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-         <underline>false</underline>
-         <strikeout>false</strikeout>
-         <stylestrategy>PreferDefault</stylestrategy>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
-       </property>
-       <property name="mouseTracking">
-        <bool>true</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color : red;</string>
-       </property>
-       <property name="midLineWidth">
-        <number>0</number>
        </property>
        <property name="text">
         <string/>
        </property>
-       <property name="textFormat">
-        <enum>Qt::RichText</enum>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="send_code_btn">
+       <property name="enabled">
+        <bool>true</bool>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignHCenter|Qt::AlignTop</set>
+       <property name="text">
+        <string>Отправить код</string>
        </property>
       </widget>
      </item>
@@ -245,7 +202,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Добавить</string>
+        <string>Авторизовать</string>
        </property>
       </widget>
      </item>
