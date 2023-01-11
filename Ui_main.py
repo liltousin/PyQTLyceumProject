@@ -148,6 +148,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.addWidget(self.stop_tasks_btn)
         self.verticalLayout_3.addLayout(self.horizontalLayout_5)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.statusBar = QtWidgets.QStatusBar(MainWindow)
+        self.statusBar.setObjectName("statusBar")
+        MainWindow.setStatusBar(self.statusBar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
