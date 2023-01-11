@@ -47,20 +47,21 @@ python main.py
 ## Project description and usage instructions
 When you first log in to the app you need to add your Telegram accounts by clicking the "Add Account" button. Then, after logging in, you will be able to manage your account. For example, double-clicking on the account will allow you to check its status in the corresponding form. The color of the account depends on its current state. There are only 4:
 1. Red - account is banned.
-2. orange - account is not authorized.
-3. yellow - authorization file is missing.
+2. Orange - account is not authorized.
+3. Yellow - authorization file is missing.
 4. Green - there is nothing wrong with the account.
 
 Also, the account when banned first becomes orange, but then only after checking the status will change to red. This is done because to check the account to ban you need to send a code, this is done so that each time you check the account did not come code.
 
 ### Описание проекта и инструкция по использованию
-Когда вы первый раз заходите в приложение вам нужно добавить ваши аккаунты телеграм по кнопке "Добавить аккаунт". Затем после авторизации вам будут доступны функции управления аккаунтом. Например кликнув 2 раза по аккаунту позволит вам проверить его состояние в соответсвующей формочке. Цвет аккаунта зависит от его текущего состояния. Их всего 4:
-1. Красный - аккаунт забанен.
+При первом входе в приложение вам необходимо добавить свои аккаунты Telegram, нажав кнопку "Добавить аккаунт". Затем, после входа в приложение, вы сможете управлять своим аккаунтом. Например, двойное нажатие на аккаунт позволит вам проверить его статус в соответствующей форме. Цвет аккаунта зависит от его текущего состояния. Их всего 4:
+
+1. Красный - аккаунт заблокирован.
 2. Оранжевый - аккаунт не авторизован.
 3. Желтый - отсутствует файл авторизации.
-4. Зеленый - с аккаунтом все в порядке
+4. Зеленый - с аккаунтом все в порядке.
 
-Так же, аккаунт при бане сначала становится оранжевым, но затем уже только после проверки состояние поменяется на красное. Это сделано потому что для проверки аккаунта на бан нужно отправить код, это сделано для того чтобы при каждой проверке аккаунта вам не приходил код.
+Кроме того, аккаунт при бане сначала становится оранжевым, а только после проверки статус меняется на красный. Это сделано потому, что для проверки аккаунта на бан нужно отправить код, это сделано для того, чтобы каждый раз при проверке аккаунта не приходил код.
 
 ## P.S
 The project is still in development. You can test it and add your issues, I will be glad to everyone
