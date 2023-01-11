@@ -197,7 +197,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="add_akk_btn">
+      <widget class="QPushButton" name="auth_akk_btn">
        <property name="enabled">
         <bool>false</bool>
        </property>

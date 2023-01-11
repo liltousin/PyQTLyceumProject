@@ -2,7 +2,7 @@ from sqlite3 import Connection
 
 from PyQt5.QtWidgets import QListWidgetItem, QWidget
 
-from check_akk_status_funcs import check_akk_status, check_ban_status
+from akk_status_funcs import check_akk_status, check_ban_status
 from sql_functions import set_akk_status
 from status_colors import STATUS_COLORS, get_status_from_color
 from Ui_akk_info_form import Ui_AkkInfoForm
@@ -13,7 +13,6 @@ class AkkInfoForm(QWidget, Ui_AkkInfoForm):
         super().__init__()
         self.setupUi(self)
         self.connection = con
-        self.error_label.setText('')
         self.cancel_btn.clicked.connect(self.close)
         self.check_status_btn.clicked.connect(self.check_status)
 
@@ -33,6 +32,7 @@ class AkkInfoForm(QWidget, Ui_AkkInfoForm):
             self.error_label.setText('Нет подключения к интернету!')
 
     def set_akk(self, akk: QListWidgetItem):
+        self.error_label.setText('')
         self.phone_label.setText(akk.text())
         color = akk.background().color()
         status = get_status_from_color(color)

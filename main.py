@@ -12,6 +12,7 @@ from PyQt5.QtWidgets import (
 
 from add_akk_form import AddAkkForm
 from akk_info_form import AkkInfoForm
+from auth_akk_form import AuthAkkForm
 from sql_functions import get_akks, setup_db
 from status_colors import STATUS_COLORS
 from Ui_main import Ui_MainWindow
@@ -27,6 +28,8 @@ class Program(QMainWindow, Ui_MainWindow):
         self.add_akk_form.installEventFilter(self)
         self.akk_info_form = AkkInfoForm(self.connection)
         self.akk_info_form.installEventFilter(self)
+        self.auth_akk_form = AuthAkkForm(self.connection)
+        self.auth_akk_form.installEventFilter(self)
         self.add_akk_btn.clicked.connect(self.add_akk_form.show)
         self.list_of_akks_widget.installEventFilter(self)
         self.list_of_akks_widget.itemDoubleClicked.connect(
@@ -41,6 +44,7 @@ class Program(QMainWindow, Ui_MainWindow):
             and type(source.itemAt(event.pos())) is QListWidgetItem
             and self.isEnabled()
         ):
+            self.reload_akks()
             menu = QMenu()
             del_akk_action = QAction('Удалить')
             reauth_akk_action = QAction('Переавторизовать')
@@ -79,13 +83,17 @@ class Program(QMainWindow, Ui_MainWindow):
             return True
 
         elif event.type() == QEvent.Show and (
-            source is self.add_akk_form or source is self.akk_info_form
+            source is self.add_akk_form
+            or source is self.akk_info_form
+            or source is self.auth_akk_form
         ):
             self.setEnabled(False)
             return True
 
         elif event.type() == QEvent.Close and (
-            source is self.add_akk_form or source is self.akk_info_form
+            source is self.add_akk_form
+            or source is self.akk_info_form
+            or source is self.auth_akk_form
         ):
             self.setEnabled(True)
             if source is self.add_akk_form:
@@ -128,17 +136,22 @@ class Program(QMainWindow, Ui_MainWindow):
         pass
 
     def auth_akk(self, akk: QListWidgetItem):
-        # check_staus(phone)
-        pass
+        # check_akk
+        try:
+            self.auth_akk_form.set_akk(akk)
+        except ConnectionError:
+            self.statusBar.showMessage('Нет подключения к интернету!')
+        else:
+            self.statusBar.clearMessage()
+        self.reload_akks()
 
     def load_tasks(self):
         pass
 
     def closeEvent(self, event):
-        if not self.add_akk_form.isHidden():
-            self.add_akk_form.close()
-        if not self.akk_info_form.isHidden():
-            self.akk_info_form.close()
+        self.add_akk_form.close()
+        self.akk_info_form.close()
+        self.auth_akk_form.close()
         self.connection.close()
 
 
