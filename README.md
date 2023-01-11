@@ -20,14 +20,14 @@ pip install -r requirements.txt
 git update-index --assume-unchanged .env
 ```
 ## Setting up .env
-1. Go to my.telegram.org , if not accessible than use any VPN<br>
-2. Enter Telegram phone number in format +918457345497<br>
-3. Enter the received code on @telegram<br>
-4. Click on Create Application<br>
-5. Enter any name and nickname.<br>
-6. Select other and leave discription empty and proceed.<br>
-7. You will get your APP ID & HASH<br>
-9. Сopy and paste your API ID & HASH into the .env file<br>
+1. Go to my.telegram.org , if not accessible than use any VPN
+2. Enter Telegram phone number in format +918457345497
+3. Enter the received code on @telegram
+4. Click on Create Application
+5. Enter any name and nickname.
+6. Select other and leave discription empty and proceed.
+7. You will get your APP ID & HASH
+9. Сopy and paste your API ID & HASH into the .env file
 
 ## Run (Windows & Linux)
 ```bash
