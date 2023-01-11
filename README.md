@@ -29,7 +29,7 @@ git update-index --assume-unchanged .env
 7. You will get your APP ID & HASH
 9. Сopy and paste your API ID & HASH into the .env file
 
-#### Настройка .env
+##### Настройка .env
 ###### 1. Перейдите на сайт my.telegram.org, если он недоступен, используйте любую VPN.
 ###### 2. Введите номер телефона Telegram в формате +918457345497
 ###### 3. Введите полученный код на @telegram
