@@ -24,8 +24,7 @@ def check_akk_status(phone: str):
         return status
     elif status := check_notauth_status(phone):
         return status
-    else:
-        return 'ok'
+    return 'ok'
 
 
 def check_ban_status(phone: str):
@@ -40,9 +39,10 @@ def check_ban_status(phone: str):
             client.disconnect()
             return 'banned'
         return status
-    else:
-        return status
+    return status
 
+
+# def check_akk_and_update(phone: str)
 
 if __name__ == '__main__':
     phone = '6283134468453'
