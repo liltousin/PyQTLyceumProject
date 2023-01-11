@@ -51,7 +51,7 @@ When you first log in to the app you need to add your Telegram accounts by click
 3. Yellow - authorization file is missing.
 4. Green - there is nothing wrong with the account.
 
-Also, the account when banned first becomes orange, but then only after checking the status will change to red. This is done because to check the account to ban you need to send a code, this is done so that each time you check the account did not come code.
+In addition, the account at the time of the ban first turns orange, and only after checking the status changes to red. This is done because to check the account for a ban you need to send a code. Therefore, so that each time you check the account does not come a code, orange status can mean both ban and no authorization.
 
 ### Описание проекта и инструкция по использованию
 При первом входе в приложение вам необходимо добавить свои аккаунты Telegram, нажав кнопку "Добавить аккаунт". Затем, после входа в приложение, вы сможете управлять своим аккаунтом. Например, двойное нажатие на аккаунт позволит вам проверить его статус в соответствующей форме. Цвет аккаунта зависит от его текущего состояния. Их всего 4:
@@ -61,7 +61,7 @@ Also, the account when banned first becomes orange, but then only after checking
 3. Желтый - отсутствует файл авторизации.
 4. Зеленый - с аккаунтом все в порядке.
 
-Кроме того, аккаунт при бане сначала становится оранжевым, а только после проверки статус меняется на красный. Это сделано потому, что для проверки аккаунта на бан нужно отправить код, это сделано для того, чтобы каждый раз при проверке аккаунта не приходил код.
+Кроме того, аккаунт в момент бана сначала становится оранжевым, и только после проверки статус меняется на красный. Это делается потому, что для проверки аккаунта на бан необходимо отправить код. Поэтому, чтобы при каждой проверке аккаунта не приходил код, оранжевый статус может означать как бан, так и отсутствие авторизации.
 
 ## P.S
 The project is still in development. You can test it and add your issues, I will be glad to everyone
