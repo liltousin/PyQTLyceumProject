@@ -40,6 +40,8 @@ When you first log in to the app you need to add your Telegram accounts by click
 2. orange - account is not authorized.
 3. yellow - authorization file is missing.
 4. Green - there is nothing wrong with the account.
+
 Also, the account when banned first becomes orange, but then only after checking the status will change to red. This is done because to check the account to ban you need to send a code, this is done so that each time you check the account did not come code.
 
+### P.S
 The project is still in development. You can test it and add your issues, I will be glad to everyone
