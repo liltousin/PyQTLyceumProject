@@ -64,6 +64,5 @@ Also, the account when banned first becomes orange, but then only after checking
 
 ## P.S
 The project is still in development. You can test it and add your issues, I will be glad to everyone
-
 #
 Проект находится еще в разработке. Вы можете тестировать его с добавлять свои issue, буду рад каждому
