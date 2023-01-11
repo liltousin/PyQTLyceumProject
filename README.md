@@ -35,3 +35,11 @@ python main.py
 ```
 
 ## Usage
+When you first log in to the app you need to add your Telegram accounts by clicking the "Add Account" button. Then, after logging in, you will be able to manage your account. For example, double-clicking on the account will allow you to check its status in the corresponding form. The color of the account depends on its current state. There are only 4:
+1. Red - account is banned.
+2. orange - account is not authorized.
+3. yellow - authorization file is missing.
+4. Green - there is nothing wrong with the account.
+Also, the account when banned first becomes orange, but then only after checking the status will change to red. This is done because to check the account to ban you need to send a code, this is done so that each time you check the account did not come code.
+
+The project is still in development. You can test it and add your issues, I will be glad to everyone
