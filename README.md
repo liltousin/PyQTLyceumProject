@@ -43,5 +43,17 @@ When you first log in to the app you need to add your Telegram accounts by click
 
 Also, the account when banned first becomes orange, but then only after checking the status will change to red. This is done because to check the account to ban you need to send a code, this is done so that each time you check the account did not come code.
 
-### P.S
+###### Usage на русском
+Когда вы первый раз заходите в приложение вам нужно добавить ваши аккаунты телеграм по кнопке "Добавить аккаунт". Затем после авторизации вам будут доступны функции управления аккаунтом. Например кликнув 2 раза по аккаунту позволит вам проверить его состояние в соответсвующей формочке. Цвет аккаунта зависит от его текущего состояния. Их всего 4:
+1. Красный - аккаунт забанен.
+2. Оранжевый - аккаунт не авторизован.
+3. Желтый - отсутствует файл авторизации.
+4. Зеленый - с аккаунтом все в порядке
+
+Так же, аккаунт при бане сначала становится оранжевым, но затем уже только после проверки состояние поменяется на красное. Это сделано потому что для проверки аккаунта на бан нужно отправить код, это сделано для того чтобы при каждой проверке аккаунта вам не приходил код.
+
+## P.S
 The project is still in development. You can test it and add your issues, I will be glad to everyone
+
+###### P.S на русском
+Проект находится еще в разработке. Вы можете тестировать его с добавлять свои issue, буду рад каждому
