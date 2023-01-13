@@ -18,7 +18,7 @@ def get_api_id_api_hash():
     return api_id, api_hash
 
 
-def try_to_send_code(phone: str):
+def try_to_send_code(phone: str, delete_session_if_banned=True):
     api_id, api_hash = get_api_id_api_hash()
     if not phone.isdecimal():
         return 'Неверный формат номера!'
@@ -35,7 +35,8 @@ def try_to_send_code(phone: str):
             client.send_code_request(phone)
         except PhoneNumberBannedError:
             client.disconnect()
-            client.session.delete()
+            if delete_session_if_banned:
+                client.session.delete()
             return 'Номер заблокирован!'
         except (TypeError, PhoneNumberInvalidError):
             client.disconnect()

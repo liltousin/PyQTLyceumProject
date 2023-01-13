@@ -2,7 +2,7 @@ from sqlite3 import Connection
 
 from PyQt5.QtWidgets import QWidget
 
-from sql_functions import add_akk_in_db
+from sql_functions import add_akk_in_db, is_akk_in_db, set_akk_status
 from tg_auth_funcions import code_checker, password_checker, try_to_send_code
 from Ui_add_akk_form import Ui_AddAkkForm
 
@@ -38,7 +38,10 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
 
     def send_code(self):
         if self.send_code_btn.isEnabled():
-            response = try_to_send_code(self.phone_line.text())
+            response = try_to_send_code(
+                self.phone_line.text(),
+                not is_akk_in_db(self.connection, self.phone_line.text()),
+            )
             self.send_code_btn.setEnabled(False)
             if type(response) == str:
                 self.phone_error_label.setText(response)
@@ -46,6 +49,16 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                     if self.client:
                         self.client.session.delete()
                     add_akk_in_db(self.connection, self.phone_line.text())
+                elif response == 'Номер заблокирован!' and is_akk_in_db(
+                    self.connection, self.phone_line.text()
+                ):
+                    if self.client:
+                        self.client.session.delete()
+                    set_akk_status(
+                        self.connection,
+                        'banned',
+                        self.phone_line.text(),
+                    )
 
             else:
                 self.phone_error_label.setText('')
