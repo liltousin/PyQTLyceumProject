@@ -98,6 +98,8 @@ class Program(QMainWindow, Ui_MainWindow):
             self.setEnabled(True)
             if source is self.add_akk_form:
                 self.add_akk_form.clean_form()
+            elif source is self.auth_akk_form:
+                self.auth_akk_form.clean_form()
             self.reload_akks()
             return True
 

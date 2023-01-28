@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QListWidgetItem, QWidget
 
 from akk_status_funcs import check_akk_status, check_nofile_status
 from sql_functions import set_akk_status
+from tg_auth_funcions import code_checker, password_checker, try_to_send_code
 from Ui_auth_akk_form import Ui_AuthAkkForm
 
 
@@ -15,7 +16,7 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
         self.client = None
         self.endflag = False
         self.cancel_btn.clicked.connect(self.close)
-        # self.send_code_btn.clicked.connect(self.send_code)
+        self.send_code_btn.clicked.connect(self.send_code)
         # self.code_line.textChanged.connect(self.check_code_line)
         # self.code_line.returnPressed.connect(self.add_akk)
         # self.auth_akk_btn.clicked.connect(self.add_akk)
@@ -30,3 +31,36 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
             set_akk_status(
                 self.connection, check_akk_status(akk.text()), akk.text()
             )
+
+    def send_code(self):
+        response = try_to_send_code(self.phone_label.text())
+        self.send_code_btn.setEnabled(False)
+        if type(response) == str:
+            self.phone_error_label.setText(response)
+            if response == 'Клиент уже авторизован!':
+                pass
+
+        else:
+            self.phone_error_label.setText('')
+            if self.client:
+                if self.client.session.filename != response.session.filename:
+                    self.client.session.delete()
+            self.client = response
+            self.code_line.setEnabled(True)
+            self.code_line.setText('')
+            self.code_line.setFocus()
+
+    def clean_form(self):
+        if self.client:
+            self.client.disconnect()
+            if not self.endflag:
+                self.client.session.delete()
+        self.endflag = False
+        self.client = None
+        self.phone_error_label.setText('')
+        self.code_line.setText('')
+        self.pswd_line.setText('')
+        self.send_code_btn.setEnabled(True)
+        self.code_line.setEnabled(False)
+        self.auth_akk_btn.setEnabled(False)
+        self.pswd_widget.setEnabled(False)
