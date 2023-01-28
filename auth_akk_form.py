@@ -37,9 +37,17 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
         self.send_code_btn.setEnabled(False)
         if type(response) == str:
             self.phone_error_label.setText(response)
+            # надо разобраться с файлами сессион
             if response == 'Клиент уже авторизован!':
                 pass
-
+            if response == 'Номер заблокирован!':
+                if self.client:
+                    self.client.session.delete()
+                set_akk_status(
+                    self.connection,
+                    'banned',
+                    self.phone_label.text(),
+                )
         else:
             self.phone_error_label.setText('')
             if self.client:
