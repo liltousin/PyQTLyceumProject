@@ -33,21 +33,21 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
             )
 
     def send_code(self):
-        response = try_to_send_code(self.phone_label.text())
+        response = try_to_send_code(
+            self.phone_label.text(), delete_session_if_banned=False
+        )
         self.send_code_btn.setEnabled(False)
         if type(response) == str:
             self.phone_error_label.setText(response)
-            # надо разобраться с файлами сессион
-            if response == 'Клиент уже авторизован!':
-                pass
+            # TODO: разобраться с файлами сессион
             if response == 'Номер заблокирован!':
-                if self.client:
-                    self.client.session.delete()
                 set_akk_status(
                     self.connection,
                     'banned',
                     self.phone_label.text(),
                 )
+                self.endflag = True
+            # TODO сделать удаление из бд если неверный формат номера
         else:
             self.phone_error_label.setText('')
             if self.client:
