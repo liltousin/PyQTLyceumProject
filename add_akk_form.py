@@ -81,7 +81,6 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
         for i in set(self.code_line.text()):
             if not i.isdecimal():
                 self.code_line.setText(self.code_line.text().replace(i, ''))
-
         self.add_akk_btn.setEnabled(bool(self.code_line.text()))
         self.code_error_label.setText('')
         self.pswd_widget.setEnabled(False)

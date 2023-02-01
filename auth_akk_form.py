@@ -17,7 +17,7 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
         self.endflag = False
         self.cancel_btn.clicked.connect(self.close)
         self.send_code_btn.clicked.connect(self.send_code)
-        # self.code_line.textChanged.connect(self.check_code_line)
+        self.code_line.textChanged.connect(self.check_code_line)
         # self.code_line.returnPressed.connect(self.add_akk)
         # self.auth_akk_btn.clicked.connect(self.add_akk)
         # self.pswd_line.textChanged.connect(self.check_pswd_line)
@@ -39,7 +39,6 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
         self.send_code_btn.setEnabled(False)
         if type(response) == str:
             self.phone_error_label.setText(response)
-            # TODO: разобраться с файлами сессион
             if response == 'Номер заблокирован!':
                 set_akk_status(
                     self.connection,
@@ -47,6 +46,8 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
                     self.phone_label.text(),
                 )
                 self.endflag = True
+            elif response == 'Неверный формат номера!':
+                pass
             # TODO сделать удаление из бд если неверный формат номера
         else:
             self.phone_error_label.setText('')
@@ -57,6 +58,16 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
             self.code_line.setEnabled(True)
             self.code_line.setText('')
             self.code_line.setFocus()
+
+    def check_code_line(self):
+        for i in set(self.code_line.text()):
+            if not i.isdecimal():
+                self.code_line.setText(self.code_line.text().replace(i, ''))
+
+        self.auth_akk_btn.setEnabled(bool(self.code_line.text()))
+        self.code_error_label.setText('')
+        self.pswd_widget.setEnabled(False)
+        self.pswd_line.setText('')
 
     def clean_form(self):
         if self.client:
