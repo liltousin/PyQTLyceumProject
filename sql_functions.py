@@ -92,3 +92,4 @@ def del_akk_in_db(connection: Connection, phone: str):
     ''',
         (phone,),
     )
+    connection.commit()
