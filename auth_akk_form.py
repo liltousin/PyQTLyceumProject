@@ -18,10 +18,10 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
         self.cancel_btn.clicked.connect(self.close)
         self.send_code_btn.clicked.connect(self.send_code)
         self.code_line.textChanged.connect(self.check_code_line)
-        # self.code_line.returnPressed.connect(self.add_akk)
-        # self.auth_akk_btn.clicked.connect(self.add_akk)
+        self.code_line.returnPressed.connect(self.auth_akk)
+        self.auth_akk_btn.clicked.connect(self.auth_akk)
         # self.pswd_line.textChanged.connect(self.check_pswd_line)
-        # self.pswd_line.returnPressed.connect(self.add_akk)
+        self.pswd_line.returnPressed.connect(self.auth_akk)
 
     def set_akk(self, akk: QListWidgetItem):
         if check_nofile_status(akk.text()):
@@ -68,6 +68,41 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
         self.code_error_label.setText('')
         self.pswd_widget.setEnabled(False)
         self.pswd_line.setText('')
+
+    # TODO подредач функцию чтобы на этой формочке все работало
+    def auth_akk(self):
+        if self.auth_akk_btn.isEnabled():
+            if not self.pswd_widget.isEnabled():
+                response = code_checker(self.client, self.code_line.text())
+                if response == 'ok':
+                    # add_akk_in_db(self.connection, self.phone_line.text())
+                    self.endflag = True
+                    self.close()
+                elif type(response) == str:
+                    self.code_error_label.setText(response)
+                    self.auth_akk_btn.setEnabled(False)
+                else:
+                    self.code_error_label.setText('')
+                    self.pswd_widget.setEnabled(True)
+                    self.pswd_line.setText('')
+                    # self.phone_line.setEnabled(False)
+                    self.send_code_btn.setEnabled(False)
+                    self.code_line.setEnabled(False)
+                    self.auth_akk_btn.setEnabled(False)
+                    self.pswd_line.setFocus()
+            else:
+                response = password_checker(self.client, self.pswd_line.text())
+                if response == 'ok':
+                    # add_akk_in_db(self.connection, self.phone_line.text())
+                    self.endflag = True
+                    self.close()
+                else:
+                    self.pswd_error_label.setText(response)
+                    self.auth_akk_btn.setEnabled(False)
+
+    def check_pswd_line(self):
+        self.auth_akk_btn.setEnabled(bool(self.pswd_line.text()))
+        self.pswd_error_label.setText('')
 
     def clean_form(self):
         if self.client:
