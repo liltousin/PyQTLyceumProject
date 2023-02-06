@@ -79,6 +79,16 @@ def is_akk_in_db(connection: Connection, phone: str):
         '''
     SELECT Akks.Phone FROM Akks WHERE Akks.Phone = ?
     ''',
-        (phone, )
+        (phone,),
     )
     return bool(cur.fetchall())
+
+
+def del_akk_in_db(connection: Connection, phone: str):
+    cur = connection.cursor()
+    cur.execute(
+        '''
+        DELETE FROM Akks WHERE Akks.Phone == ?
+    ''',
+        (phone,),
+    )
