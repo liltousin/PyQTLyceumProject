@@ -106,7 +106,7 @@ class Program(QMainWindow, Ui_MainWindow):
         return super().eventFilter(source, event)
 
     def update_akks(self):
-
+        # TODO проверка каждого акка
         self.reload_akks()
 
     def reload_akks(self):

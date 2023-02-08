@@ -69,7 +69,6 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
         self.pswd_widget.setEnabled(False)
         self.pswd_line.setText('')
 
-    # TODO подредач функцию чтобы на этой формочке все работало
     def auth_akk(self):
         if self.auth_akk_btn.isEnabled():
             if not self.pswd_widget.isEnabled():
