@@ -14,6 +14,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
         self.connection = con
         self.client = None
         self.endflag = False
+        self.pswd_widget.setEnabled(False)
         self.cancel_btn.clicked.connect(self.close)
         self.phone_line.textChanged.connect(self.check_phone_line)
         self.phone_line.returnPressed.connect(self.send_code)

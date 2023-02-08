@@ -3,7 +3,7 @@ from sqlite3 import Connection
 from PyQt5.QtWidgets import QListWidgetItem, QWidget
 
 from akk_status_funcs import check_akk_status, check_nofile_status
-from sql_functions import set_akk_status
+from sql_functions import del_akk_in_db, set_akk_status
 from tg_auth_funcions import code_checker, password_checker, try_to_send_code
 from Ui_auth_akk_form import Ui_AuthAkkForm
 
@@ -15,12 +15,13 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
         self.connection = con
         self.client = None
         self.endflag = False
+        self.pswd_widget.setEnabled(False)
         self.cancel_btn.clicked.connect(self.close)
         self.send_code_btn.clicked.connect(self.send_code)
         self.code_line.textChanged.connect(self.check_code_line)
         self.code_line.returnPressed.connect(self.auth_akk)
         self.auth_akk_btn.clicked.connect(self.auth_akk)
-        # self.pswd_line.textChanged.connect(self.check_pswd_line)
+        self.pswd_line.textChanged.connect(self.check_pswd_line)
         self.pswd_line.returnPressed.connect(self.auth_akk)
 
     def set_akk(self, akk: QListWidgetItem):
@@ -47,8 +48,7 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
                 )
                 self.endflag = True
             elif response == 'Неверный формат номера!':
-                pass
-            # TODO сделать удаление из бд если неверный формат номера
+                del_akk_in_db(self.connection, self.phone_label.text())
         else:
             self.phone_error_label.setText('')
             if self.client:
@@ -75,7 +75,9 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
             if not self.pswd_widget.isEnabled():
                 response = code_checker(self.client, self.code_line.text())
                 if response == 'ok':
-                    # add_akk_in_db(self.connection, self.phone_line.text())
+                    set_akk_status(
+                        self.connection, 'ok', self.phone_label.text()
+                    )
                     self.endflag = True
                     self.close()
                 elif type(response) == str:
@@ -85,7 +87,6 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
                     self.code_error_label.setText('')
                     self.pswd_widget.setEnabled(True)
                     self.pswd_line.setText('')
-                    # self.phone_line.setEnabled(False)
                     self.send_code_btn.setEnabled(False)
                     self.code_line.setEnabled(False)
                     self.auth_akk_btn.setEnabled(False)
@@ -93,7 +94,9 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
             else:
                 response = password_checker(self.client, self.pswd_line.text())
                 if response == 'ok':
-                    # add_akk_in_db(self.connection, self.phone_line.text())
+                    set_akk_status(
+                        self.connection, 'ok', self.phone_label.text()
+                    )
                     self.endflag = True
                     self.close()
                 else:

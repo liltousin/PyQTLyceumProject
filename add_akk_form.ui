@@ -151,7 +151,7 @@
    <item>
     <widget class="QWidget" name="pswd_widget" native="true">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="leftMargin">
@@ -169,7 +169,7 @@
       <item>
        <widget class="QLabel" name="pswd_label">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="text">
          <string>Пароль:</string>
@@ -184,7 +184,7 @@
         <item>
          <widget class="QLineEdit" name="pswd_line">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>
