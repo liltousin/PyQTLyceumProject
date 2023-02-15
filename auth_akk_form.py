@@ -9,7 +9,7 @@ from Ui_auth_akk_form import Ui_AuthAkkForm
 
 
 class AuthAkkForm(QWidget, Ui_AuthAkkForm):
-    def __init__(self, con: Connection) -> None:
+    def __init__(self, con: Connection):
         super().__init__()
         self.setupUi(self)
         self.connection = con

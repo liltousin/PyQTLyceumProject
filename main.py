@@ -12,9 +12,9 @@ from PyQt5.QtWidgets import (
 
 from add_akk_form import AddAkkForm
 from akk_info_form import AkkInfoForm
+from akk_status_funcs import check_akk_and_update
 from auth_akk_form import AuthAkkForm
 from sql_functions import get_akks, setup_db
-from akk_status_funcs import check_akk_and_update
 from status_colors import STATUS_COLORS
 from Ui_main import Ui_MainWindow
 
@@ -142,16 +142,14 @@ class Program(QMainWindow, Ui_MainWindow):
         # if not check_is_banned(phone):
         #   reauth_akk_form.phone = phone
         #   reauth_akk_form.show()
-        pass
+        raise ValueError('TODO reauth_akk')
 
     def auth_akk(self, akk: QListWidgetItem):
-        # check_akk
+        self.statusBar.clearMessage()
         try:
             self.auth_akk_form.set_akk(akk)
         except ConnectionError:
             self.statusBar.showMessage('Нет подключения к интернету!')
-        else:
-            self.statusBar.clearMessage()
         self.reload_akks()
 
     def load_tasks(self):
