@@ -14,6 +14,7 @@ from add_akk_form import AddAkkForm
 from akk_info_form import AkkInfoForm
 from auth_akk_form import AuthAkkForm
 from sql_functions import get_akks, setup_db
+from akk_status_funcs import check_akk_and_update
 from status_colors import STATUS_COLORS
 from Ui_main import Ui_MainWindow
 
@@ -106,7 +107,13 @@ class Program(QMainWindow, Ui_MainWindow):
         return super().eventFilter(source, event)
 
     def update_akks(self):
-        # TODO проверка каждого акка
+        self.statusBar.clearMessage()
+        akks = get_akks(self.connection)
+        for phone, db_status in akks:
+            try:
+                check_akk_and_update(phone, db_status, self.connection)
+            except ConnectionError:
+                self.statusBar().showMessage('Нет подключения к интернету!')
         self.reload_akks()
 
     def reload_akks(self):
