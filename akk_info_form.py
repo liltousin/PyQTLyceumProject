@@ -8,7 +8,7 @@ from Ui_akk_info_form import Ui_AkkInfoForm
 
 
 class AkkInfoForm(QWidget, Ui_AkkInfoForm):
-    def __init__(self, con: Connection) -> None:
+    def __init__(self, con: Connection):
         super().__init__()
         self.setupUi(self)
         self.connection = con
@@ -17,15 +17,18 @@ class AkkInfoForm(QWidget, Ui_AkkInfoForm):
 
     def check_status(self):
         self.error_label.setText('')
-        response = check_akk_and_update(
-            self.phone_label.text(), self.status_label.text(), self.connection
-        )
-        if response == 'Нет подключения к интернету!':
-            self.error_label.setText(response)
+        try:
+            status = check_akk_and_update(
+                self.phone_label.text(),
+                self.status_label.text(),
+                self.connection,
+            )
+        except ConnectionError:
+            self.error_label.setText('Нет подключения к интернету!')
         else:
-            self.status_label.setText(response)
+            self.status_label.setText(status)
             self.status_label.setStyleSheet(
-                f'color: {STATUS_COLORS[response].name()}'
+                f'color: {STATUS_COLORS[status].name()}'
             )
 
     def set_akk(self, akk: QListWidgetItem):
