@@ -99,15 +99,11 @@ class Program(QMainWindow, Ui_MainWindow):
             source is self.add_akk_form
             or source is self.akk_info_form
             or source is self.auth_akk_form
+            or source is self.reauth_akk_form
         ):
             self.setEnabled(True)
-            # TODO: if source is or or or: source.clean_form()
-            if source is self.add_akk_form:
-                self.add_akk_form.clean_form()
-            elif source is self.auth_akk_form:
-                self.auth_akk_form.clean_form()
-            elif source is self.reauth_akk_form:
-                self.reauth_akk_form.clean_form()
+            if source is not self.akk_info_form:
+                source.clean_form()
             self.reload_akks()
             return True
 
