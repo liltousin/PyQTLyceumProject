@@ -14,6 +14,7 @@ from add_akk_form import AddAkkForm
 from akk_info_form import AkkInfoForm
 from akk_status_funcs import check_akk_and_update
 from auth_akk_form import AuthAkkForm
+from reauth_akk_form import ReauthAkkForm
 from sql_functions import get_akks, setup_db
 from status_colors import STATUS_COLORS
 from Ui_main import Ui_MainWindow
@@ -31,6 +32,8 @@ class Program(QMainWindow, Ui_MainWindow):
         self.akk_info_form.installEventFilter(self)
         self.auth_akk_form = AuthAkkForm(self.connection)
         self.auth_akk_form.installEventFilter(self)
+        self.reauth_akk_form = ReauthAkkForm(self.connection)
+        self.reauth_akk_form.installEventFilter(self)
         self.add_akk_btn.clicked.connect(self.add_akk_form.show)
         self.list_of_akks_widget.installEventFilter(self)
         self.list_of_akks_widget.itemDoubleClicked.connect(
@@ -87,6 +90,7 @@ class Program(QMainWindow, Ui_MainWindow):
             source is self.add_akk_form
             or source is self.akk_info_form
             or source is self.auth_akk_form
+            or source is self.reauth_akk_form
         ):
             self.setEnabled(False)
             return True
@@ -97,10 +101,13 @@ class Program(QMainWindow, Ui_MainWindow):
             or source is self.auth_akk_form
         ):
             self.setEnabled(True)
+            # TODO: if source is or or or: source.clean_form()
             if source is self.add_akk_form:
                 self.add_akk_form.clean_form()
             elif source is self.auth_akk_form:
                 self.auth_akk_form.clean_form()
+            elif source is self.reauth_akk_form:
+                self.reauth_akk_form.clean_form()
             self.reload_akks()
             return True
 
@@ -139,10 +146,12 @@ class Program(QMainWindow, Ui_MainWindow):
         self.reload_akks()
 
     def reauth_akk(self, akk: QListWidgetItem):
-        # if not check_is_banned(phone):
-        #   reauth_akk_form.phone = phone
-        #   reauth_akk_form.show()
-        raise ValueError('TODO reauth_akk')
+        self.statusBar.clearMessage()
+        try:
+            self.reauth_akk_form.set_akk(akk)
+        except ConnectionError:
+            self.statusBar.showMessage('Нет подключения к интернету!')
+        self.reload_akks()
 
     def auth_akk(self, akk: QListWidgetItem):
         self.statusBar.clearMessage()
