@@ -80,7 +80,7 @@ class Ui_AkkInfoForm(object):
         AkkInfoForm.setWindowTitle(_translate("AkkInfoForm", "Аккаунт"))
         self.label_1.setText(_translate("AkkInfoForm", "Номер телефона:"))
         self.label_3.setText(_translate("AkkInfoForm", "Статус:"))
-        self.cancel_btn.setText(_translate("AkkInfoForm", "Отмена"))
+        self.cancel_btn.setText(_translate("AkkInfoForm", "Назад"))
         self.check_status_btn.setText(
             _translate("AkkInfoForm", "Проверить статус")
         )
