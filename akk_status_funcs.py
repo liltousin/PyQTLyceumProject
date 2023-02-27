@@ -1,10 +1,13 @@
 import os
 from sqlite3 import Connection
 
-from telethon.errors.rpcerrorlist import PhoneNumberBannedError
+from telethon.errors.rpcerrorlist import (
+    PhoneNumberBannedError,
+    PhoneNumberInvalidError,
+)
 from telethon.sync import TelegramClient
 
-from sql_functions import set_akk_status
+from sql_functions import del_akk_in_db, set_akk_status
 from tg_auth_funcions import get_api_id_api_hash
 
 
@@ -37,7 +40,7 @@ def check_ban_status(phone: str):
         client.connect()
         try:
             client.send_code_request(phone)
-        except PhoneNumberBannedError:
+        except (PhoneNumberBannedError, TypeError, PhoneNumberInvalidError):
             client.disconnect()
             return 'banned'
         return status
