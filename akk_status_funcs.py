@@ -7,7 +7,7 @@ from telethon.errors.rpcerrorlist import (
 )
 from telethon.sync import TelegramClient
 
-from sql_functions import del_akk_in_db, set_akk_status
+from sql_functions import set_akk_status
 from tg_auth_funcions import get_api_id_api_hash
 
 
@@ -32,7 +32,7 @@ def check_akk_status(phone: str):
     return 'ok'
 
 
-def check_ban_status(phone: str):
+def check_ban_status(phone: str, return_client=False):
     status = check_akk_status(phone)
     if status == 'notauth':
         api_id, api_hash = get_api_id_api_hash()
@@ -40,10 +40,14 @@ def check_ban_status(phone: str):
         client.connect()
         try:
             client.send_code_request(phone)
+        # TODO: разобраться почему нельзя удалить если неправильный номер
+        # del_akk_in_db
         except (PhoneNumberBannedError, TypeError, PhoneNumberInvalidError):
             client.disconnect()
             return 'banned'
-        return status
+    if return_client:
+        return status, client
+    client.disconnect()
     return status
 
 
