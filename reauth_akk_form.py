@@ -17,10 +17,9 @@ class ReauthAkkForm(QWidget, Ui_ReauthAkkForm):
         # self.endflag = False
         self.pswd_widget.setEnabled(False)
         self.cancel_btn.clicked.connect(self.close)
-
-        # self.code_line.textChanged.connect(self.check_code_line)
+        self.code_line.textChanged.connect(self.check_code_line)
         # self.code_line.returnPressed.connect(self.reauth_akk)
-        # self.reauth_akk_btn.clicked.connect(self.reauth_akk)
+        # # self.reauth_akk_btn.clicked.connect(self.reauth_akk)
         # self.pswd_line.textChanged.connect(self.check_pswd_line)
         # self.pswd_line.returnPressed.connect(self.reauth_akk)
 
@@ -42,17 +41,17 @@ class ReauthAkkForm(QWidget, Ui_ReauthAkkForm):
                 self.connection, status, akk.text()
             )
 
-    # def check_code_line(self):
-    #     for i in set(self.code_line.text()):
-    #         if not i.isdecimal():
-    #             self.code_line.setText(self.code_line.text().replace(i, ''))
+    def check_code_line(self):
+        for i in set(self.code_line.text()):
+            if not i.isdecimal():
+                self.code_line.setText(self.code_line.text().replace(i, ''))
 
-    #     self.auth_akk_btn.setEnabled(bool(self.code_line.text()))
-    #     self.code_error_label.setText('')
-    #     self.pswd_widget.setEnabled(False)
-    #     self.pswd_line.setText('')
+        self.reauth_akk_btn.setEnabled(bool(self.code_line.text()))
+        self.code_error_label.setText('')
+        self.pswd_widget.setEnabled(False)
+        self.pswd_line.setText('')
 
-    # def auth_akk(self):
+    # def reauth_akk(self):
     #     if self.auth_akk_btn.isEnabled():
     #         if not self.pswd_widget.isEnabled():
     #             response = code_checker(self.client, self.code_line.text())
@@ -92,9 +91,6 @@ class ReauthAkkForm(QWidget, Ui_ReauthAkkForm):
     def clean_form(self):
         if self.client:
             self.client.disconnect()
-            # if not self.endflag:
-            #     self.client.session.delete()
-            #     print(1)
         # TODO: разобраться нужел ли эндфлаг
         # self.endflag = False
         self.client = None
