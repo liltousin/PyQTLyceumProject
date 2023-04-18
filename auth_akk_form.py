@@ -51,6 +51,7 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
                 del_akk_in_db(self.connection, self.phone_label.text())
         else:
             self.phone_error_label.setText('')
+            # TODO: разобраться нужна ли эта фигня
             if self.client:
                 if self.client.session.filename != response.session.filename:
                     self.client.session.delete()

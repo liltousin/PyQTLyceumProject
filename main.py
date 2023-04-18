@@ -116,6 +116,10 @@ class Program(QMainWindow, Ui_MainWindow):
             try:
                 check_akk_and_update(phone, db_status, self.connection)
             except ConnectionError:
+                # TODO: разобраться когда по дефолту нет инета
+                # TODO: разобраться когда заного конект
+                # например когда нет подключения включается механизм проверки
+                # соединения который работает постоянно
                 self.statusBar().showMessage('Нет подключения к интернету!')
         self.reload_akks()
 
@@ -164,6 +168,7 @@ class Program(QMainWindow, Ui_MainWindow):
         self.add_akk_form.close()
         self.akk_info_form.close()
         self.auth_akk_form.close()
+        self.reauth_akk_form.close()
         self.connection.close()
 
 
