@@ -29,6 +29,7 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
             self.phone_label.setText(akk.text())
             self.show()
         else:
+            # TODO: че если бан статус проверять и сразу ставить тоже
             set_akk_status(
                 self.connection, check_akk_status(akk.text()), akk.text()
             )
