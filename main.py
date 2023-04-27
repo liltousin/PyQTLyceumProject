@@ -110,6 +110,7 @@ class Program(QMainWindow, Ui_MainWindow):
         return super().eventFilter(source, event)
 
     def update_akks(self):
+        self.reload_akks()
         self.statusBar.clearMessage()
         akks = get_akks(self.connection)
         for phone, db_status in akks:

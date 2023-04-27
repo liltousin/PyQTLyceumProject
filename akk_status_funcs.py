@@ -34,6 +34,7 @@ def check_akk_status(phone: str):
 
 def check_ban_status(phone: str, return_client=False):
     status = check_akk_status(phone)
+    client = None
     if status == 'notauth':
         api_id, api_hash = get_api_id_api_hash()
         client = TelegramClient(phone, api_id, api_hash)
@@ -47,7 +48,8 @@ def check_ban_status(phone: str, return_client=False):
             return 'banned'
     if return_client:
         return status, client
-    client.disconnect()
+    if client:
+        client.disconnect()
     return status
 
 

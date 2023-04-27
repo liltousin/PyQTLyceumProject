@@ -3,7 +3,7 @@ from sqlite3 import Connection
 from PyQt5.QtWidgets import QListWidgetItem, QWidget
 
 from akk_status_funcs import check_ban_status
-from sql_functions import del_akk_in_db, set_akk_status
+from sql_functions import set_akk_status
 from tg_auth_funcions import code_checker, password_checker
 from Ui_reauth_akk_form import Ui_ReauthAkkForm
 
