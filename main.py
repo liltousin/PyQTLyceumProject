@@ -2,13 +2,7 @@ import sqlite3
 import sys
 
 from PyQt5.QtCore import QEvent
-from PyQt5.QtWidgets import (
-    QAction,
-    QApplication,
-    QListWidgetItem,
-    QMainWindow,
-    QMenu,
-)
+from PyQt5.QtWidgets import QAction, QApplication, QListWidgetItem, QMainWindow, QMenu, QMessageBox
 
 from add_akk_form import AddAkkForm
 from akk_info_form import AkkInfoForm
@@ -36,9 +30,7 @@ class Program(QMainWindow, Ui_MainWindow):
         self.reauth_akk_form.installEventFilter(self)
         self.add_akk_btn.clicked.connect(self.add_akk_form.show)
         self.list_of_akks_widget.installEventFilter(self)
-        self.list_of_akks_widget.itemDoubleClicked.connect(
-            self.show_akk_info_form
-        )
+        self.list_of_akks_widget.itemDoubleClicked.connect(self.show_akk_info_form)
         self.update_akks()
 
     def eventFilter(self, source, event):
@@ -57,6 +49,7 @@ class Program(QMainWindow, Ui_MainWindow):
             akk = source.itemAt(event.pos())
 
             if akk.background().color() == STATUS_COLORS['banned']:
+                # TODO: сделать удаление любого нерабочего акка, и сохраниение их в списке удаленных
                 list_of_actions.append(del_akk_action)
             elif akk.background().color() == STATUS_COLORS['notauth']:
                 list_of_actions.append(reauth_akk_action)
@@ -72,11 +65,7 @@ class Program(QMainWindow, Ui_MainWindow):
                 elif action == auth_akk_action:
                     self.auth_akk(akk)
             return True
-        elif (
-            event.type() == QEvent.ContextMenu
-            and source is self.list_of_akks_widget
-            and self.isEnabled()
-        ):
+        elif event.type() == QEvent.ContextMenu and source is self.list_of_akks_widget and self.isEnabled():
             menu = QMenu()
             update_akks_action = QAction('Обновить все')
             menu.addAction(update_akks_action)
@@ -143,7 +132,13 @@ class Program(QMainWindow, Ui_MainWindow):
         pass
 
     def del_akk(self, akk: QListWidgetItem):
-        # check_is_banned(phone)
+        if check_akk_and_update(akk.text(), 'banned', self.connection) == 'banned':
+            if (
+                QMessageBox.question(self, 'Удалить аккаунт', 'Вы действительно хоттите удалить акккаунт?')
+                == QMessageBox.Yes
+            ):
+                #TODO: удаление аккаунта как в других формах
+                pass
         self.reload_akks()
 
     def reauth_akk(self, akk: QListWidgetItem):

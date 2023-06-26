@@ -10,11 +10,7 @@ class Ui_AkkInfoForm(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label_1 = QtWidgets.QLabel(AkkInfoForm)
-        self.label_1.setAlignment(
-            QtCore.Qt.AlignRight
-            | QtCore.Qt.AlignTrailing
-            | QtCore.Qt.AlignVCenter
-        )
+        self.label_1.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_1.setObjectName("label_1")
         self.horizontalLayout.addWidget(self.label_1)
         self.phone_label = QtWidgets.QLabel(AkkInfoForm)
@@ -36,11 +32,7 @@ class Ui_AkkInfoForm(object):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label_3 = QtWidgets.QLabel(AkkInfoForm)
-        self.label_3.setAlignment(
-            QtCore.Qt.AlignRight
-            | QtCore.Qt.AlignTrailing
-            | QtCore.Qt.AlignVCenter
-        )
+        self.label_3.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_2.addWidget(self.label_3)
         self.status_label = QtWidgets.QLabel(AkkInfoForm)
@@ -81,6 +73,4 @@ class Ui_AkkInfoForm(object):
         self.label_1.setText(_translate("AkkInfoForm", "Номер телефона:"))
         self.label_3.setText(_translate("AkkInfoForm", "Статус:"))
         self.cancel_btn.setText(_translate("AkkInfoForm", "Назад"))
-        self.check_status_btn.setText(
-            _translate("AkkInfoForm", "Проверить статус")
-        )
+        self.check_status_btn.setText(_translate("AkkInfoForm", "Проверить статус"))

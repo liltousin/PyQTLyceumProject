@@ -15,11 +15,7 @@ class Ui_ReauthAkkForm(object):
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label = QtWidgets.QLabel(ReauthAkkForm)
-        self.label.setAlignment(
-            QtCore.Qt.AlignLeading
-            | QtCore.Qt.AlignLeft
-            | QtCore.Qt.AlignVCenter
-        )
+        self.label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.label.setObjectName("label")
         self.horizontalLayout_2.addWidget(self.label)
         self.phone_label = QtWidgets.QLabel(ReauthAkkForm)
@@ -28,11 +24,7 @@ class Ui_ReauthAkkForm(object):
         font.setWeight(75)
         self.phone_label.setFont(font)
         self.phone_label.setText("")
-        self.phone_label.setAlignment(
-            QtCore.Qt.AlignLeading
-            | QtCore.Qt.AlignLeft
-            | QtCore.Qt.AlignVCenter
-        )
+        self.phone_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.phone_label.setObjectName("phone_label")
         self.horizontalLayout_2.addWidget(self.phone_label)
         self.empty_label = QtWidgets.QLabel(ReauthAkkForm)
@@ -59,9 +51,7 @@ class Ui_ReauthAkkForm(object):
         self.code_error_label.setFont(font)
         self.code_error_label.setStyleSheet("color: red")
         self.code_error_label.setText("")
-        self.code_error_label.setAlignment(
-            QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
-        )
+        self.code_error_label.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.code_error_label.setObjectName("code_error_label")
         self.verticalLayout_3.addWidget(self.code_error_label)
         self.verticalLayout.addLayout(self.verticalLayout_3)
@@ -88,9 +78,7 @@ class Ui_ReauthAkkForm(object):
         self.pswd_error_label.setFont(font)
         self.pswd_error_label.setStyleSheet("color: red")
         self.pswd_error_label.setText("")
-        self.pswd_error_label.setAlignment(
-            QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
-        )
+        self.pswd_error_label.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.pswd_error_label.setObjectName("pswd_error_label")
         self.verticalLayout_4.addWidget(self.pswd_error_label)
         self.verticalLayout_2.addLayout(self.verticalLayout_4)
@@ -119,13 +107,9 @@ class Ui_ReauthAkkForm(object):
 
     def retranslateUi(self, ReauthAkkForm):
         _translate = QtCore.QCoreApplication.translate
-        ReauthAkkForm.setWindowTitle(
-            _translate("ReauthAkkForm", "Переавторизовать аккаунт")
-        )
+        ReauthAkkForm.setWindowTitle(_translate("ReauthAkkForm", "Переавторизовать аккаунт"))
         self.label.setText(_translate("ReauthAkkForm", "Номер телефона:"))
         self.code_label.setText(_translate("ReauthAkkForm", "Код:"))
         self.pswd_label.setText(_translate("ReauthAkkForm", "Пароль:"))
         self.cancel_btn.setText(_translate("ReauthAkkForm", "Отмена"))
-        self.reauth_akk_btn.setText(
-            _translate("ReauthAkkForm", "Переавторизовать")
-        )
+        self.reauth_akk_btn.setText(_translate("ReauthAkkForm", "Переавторизовать"))

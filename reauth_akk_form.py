@@ -38,9 +38,7 @@ class ReauthAkkForm(QWidget, Ui_ReauthAkkForm):
             self.code_line.setText('')
             self.code_line.setFocus()
         else:
-            set_akk_status(
-                self.connection, status, akk.text()
-            )
+            set_akk_status(self.connection, status, akk.text())
 
     def check_code_line(self):
         for i in set(self.code_line.text()):
@@ -57,9 +55,7 @@ class ReauthAkkForm(QWidget, Ui_ReauthAkkForm):
             if not self.pswd_widget.isEnabled():
                 response = code_checker(self.client, self.code_line.text())
                 if response == 'ok':
-                    set_akk_status(
-                        self.connection, 'ok', self.phone_label.text()
-                    )
+                    set_akk_status(self.connection, 'ok', self.phone_label.text())
                     self.endflag = True
                     self.close()
                 elif type(response) == str:
@@ -75,9 +71,7 @@ class ReauthAkkForm(QWidget, Ui_ReauthAkkForm):
             else:
                 response = password_checker(self.client, self.pswd_line.text())
                 if response == 'ok':
-                    set_akk_status(
-                        self.connection, 'ok', self.phone_label.text()
-                    )
+                    set_akk_status(self.connection, 'ok', self.phone_label.text())
                     self.endflag = True
                     self.close()
                 else:

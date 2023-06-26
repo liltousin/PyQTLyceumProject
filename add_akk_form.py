@@ -50,9 +50,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
                     if self.client:
                         self.client.session.delete()
                     add_akk_in_db(self.connection, self.phone_line.text())
-                elif response == 'Номер заблокирован!' and is_akk_in_db(
-                    self.connection, self.phone_line.text()
-                ):
+                elif response == 'Номер заблокирован!' and is_akk_in_db(self.connection, self.phone_line.text()):
                     if self.client:
                         self.client.session.delete()
                     set_akk_status(
@@ -64,10 +62,7 @@ class AddAkkForm(QWidget, Ui_AddAkkForm):
             else:
                 self.phone_error_label.setText('')
                 if self.client:
-                    if (
-                        self.client.session.filename
-                        != response.session.filename
-                    ):
+                    if self.client.session.filename != response.session.filename:
                         self.client.session.delete()
                 self.client = response
                 self.code_line.setEnabled(True)

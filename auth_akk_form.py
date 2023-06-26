@@ -30,14 +30,10 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
             self.show()
         else:
             # TODO: че если бан статус проверять и сразу ставить тоже
-            set_akk_status(
-                self.connection, check_akk_status(akk.text()), akk.text()
-            )
+            set_akk_status(self.connection, check_akk_status(akk.text()), akk.text())
 
     def send_code(self):
-        response = try_to_send_code(
-            self.phone_label.text(), delete_session_if_banned=False
-        )
+        response = try_to_send_code(self.phone_label.text(), delete_session_if_banned=False)
         self.send_code_btn.setEnabled(False)
         if type(response) == str:
             self.phone_error_label.setText(response)
@@ -76,9 +72,7 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
             if not self.pswd_widget.isEnabled():
                 response = code_checker(self.client, self.code_line.text())
                 if response == 'ok':
-                    set_akk_status(
-                        self.connection, 'ok', self.phone_label.text()
-                    )
+                    set_akk_status(self.connection, 'ok', self.phone_label.text())
                     self.endflag = True
                     self.close()
                 elif type(response) == str:
@@ -95,9 +89,7 @@ class AuthAkkForm(QWidget, Ui_AuthAkkForm):
             else:
                 response = password_checker(self.client, self.pswd_line.text())
                 if response == 'ok':
-                    set_akk_status(
-                        self.connection, 'ok', self.phone_label.text()
-                    )
+                    set_akk_status(self.connection, 'ok', self.phone_label.text())
                     self.endflag = True
                     self.close()
                 else:

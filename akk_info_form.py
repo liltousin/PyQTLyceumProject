@@ -27,9 +27,7 @@ class AkkInfoForm(QWidget, Ui_AkkInfoForm):
             self.error_label.setText('Нет подключения к интернету!')
         else:
             self.status_label.setText(status)
-            self.status_label.setStyleSheet(
-                f'color: {STATUS_COLORS[status].name()}'
-            )
+            self.status_label.setStyleSheet(f'color: {STATUS_COLORS[status].name()}')
 
     def set_akk(self, akk: QListWidgetItem):
         self.error_label.setText('')

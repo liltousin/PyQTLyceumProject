@@ -1,10 +1,7 @@
 import os
 from sqlite3 import Connection
 
-from telethon.errors.rpcerrorlist import (
-    PhoneNumberBannedError,
-    PhoneNumberInvalidError,
-)
+from telethon.errors.rpcerrorlist import PhoneNumberBannedError, PhoneNumberInvalidError
 from telethon.sync import TelegramClient
 
 from sql_functions import set_akk_status

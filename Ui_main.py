@@ -106,8 +106,7 @@ class Ui_MainWindow(object):
         self.list_of_akks_widget = QtWidgets.QListWidget(self.centralwidget)
         self.list_of_akks_widget.setMinimumSize(QtCore.QSize(0, 0))
         self.list_of_akks_widget.setEditTriggers(
-            QtWidgets.QAbstractItemView.DoubleClicked
-            | QtWidgets.QAbstractItemView.EditKeyPressed
+            QtWidgets.QAbstractItemView.DoubleClicked | QtWidgets.QAbstractItemView.EditKeyPressed
         )
         self.list_of_akks_widget.setObjectName("list_of_akks_widget")
         self.verticalLayout_2.addWidget(self.list_of_akks_widget)
@@ -157,25 +156,15 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(
-            _translate("MainWindow", "Рассылка по чатам")
-        )
+        MainWindow.setWindowTitle(_translate("MainWindow", "Рассылка по чатам"))
         self.task_label.setText(_translate("MainWindow", "Список тасков"))
         self.add_task_btn.setText(_translate("MainWindow", "Добавить"))
-        self.import_tasks_btn.setText(
-            _translate("MainWindow", "Импортировать")
-        )
-        self.export_tasks_btn.setText(
-            _translate("MainWindow", "Экспортировать")
-        )
+        self.import_tasks_btn.setText(_translate("MainWindow", "Импортировать"))
+        self.export_tasks_btn.setText(_translate("MainWindow", "Экспортировать"))
         self.akks_label.setText(_translate("MainWindow", "Список аккаунтов"))
         self.add_akk_btn.setText(_translate("MainWindow", "Добавить"))
-        self.del_nwork_akks_btn.setText(
-            _translate("MainWindow", "Удалить нерабочие")
-        )
+        self.del_nwork_akks_btn.setText(_translate("MainWindow", "Удалить нерабочие"))
         self.import_akks_btn.setText(_translate("MainWindow", "Импортировать"))
-        self.export_akks_btn.setText(
-            _translate("MainWindow", "Экспортировать")
-        )
+        self.export_akks_btn.setText(_translate("MainWindow", "Экспортировать"))
         self.run_tasks_btn.setText(_translate("MainWindow", "Запуск"))
         self.stop_tasks_btn.setText(_translate("MainWindow", "Стоп"))

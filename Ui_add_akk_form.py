@@ -42,9 +42,7 @@ class Ui_AddAkkForm(object):
         self.phone_error_label.setMidLineWidth(0)
         self.phone_error_label.setText("")
         self.phone_error_label.setTextFormat(QtCore.Qt.RichText)
-        self.phone_error_label.setAlignment(
-            QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
-        )
+        self.phone_error_label.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.phone_error_label.setObjectName("phone_error_label")
         self.verticalLayout.addWidget(self.phone_error_label)
         self.verticalLayout_5.addLayout(self.verticalLayout)
@@ -67,9 +65,7 @@ class Ui_AddAkkForm(object):
         self.code_error_label.setFont(font)
         self.code_error_label.setStyleSheet("color : red;")
         self.code_error_label.setText("")
-        self.code_error_label.setAlignment(
-            QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
-        )
+        self.code_error_label.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.code_error_label.setObjectName("code_error_label")
         self.verticalLayout_3.addWidget(self.code_error_label)
         self.verticalLayout_5.addLayout(self.verticalLayout_3)
@@ -96,9 +92,7 @@ class Ui_AddAkkForm(object):
         self.pswd_error_label.setFont(font)
         self.pswd_error_label.setStyleSheet("color : red;")
         self.pswd_error_label.setText("")
-        self.pswd_error_label.setAlignment(
-            QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
-        )
+        self.pswd_error_label.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.pswd_error_label.setObjectName("pswd_error_label")
         self.verticalLayout_4.addWidget(self.pswd_error_label)
         self.verticalLayout_2.addLayout(self.verticalLayout_4)
