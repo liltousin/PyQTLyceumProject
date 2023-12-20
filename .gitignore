@@ -3,3 +3,4 @@ venv
 db.sqlite
 __pycache__
 test
+.vscode
