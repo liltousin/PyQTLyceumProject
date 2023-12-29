@@ -1,8 +1,10 @@
 import sqlite3
 import sys
 
-from PyQt5.QtCore import QEvent
-from PyQt5.QtWidgets import QAction, QApplication, QListWidgetItem, QMainWindow, QMenu, QMessageBox
+from PyQt6.QtCore import QEvent
+from PyQt6.QtGui import QAction
+from PyQt6.QtWidgets import (QApplication, QListWidgetItem, QMainWindow, QMenu,
+                             QMessageBox)
 
 from add_akk_form import AddAkkForm
 from akk_info_form import AkkInfoForm
@@ -42,18 +44,18 @@ class Program(QMainWindow, Ui_MainWindow):
         ):
             self.reload_akks()
             menu = QMenu()
-            del_akk_action = QAction('Удалить')
-            reauth_akk_action = QAction('Переавторизовать')
-            auth_akk_action = QAction('Авторизовать')
+            del_akk_action = QAction("Удалить")
+            reauth_akk_action = QAction("Переавторизовать")
+            auth_akk_action = QAction("Авторизовать")
             list_of_actions = []
             akk = source.itemAt(event.pos())
 
-            if akk.background().color() == STATUS_COLORS['banned']:
+            if akk.background().color() == STATUS_COLORS["banned"]:
                 # TODO: сделать удаление любого нерабочего акка, и сохраниение их в списке удаленных
                 list_of_actions.append(del_akk_action)
-            elif akk.background().color() == STATUS_COLORS['notauth']:
+            elif akk.background().color() == STATUS_COLORS["notauth"]:
                 list_of_actions.append(reauth_akk_action)
-            elif akk.background().color() == STATUS_COLORS['nofile']:
+            elif akk.background().color() == STATUS_COLORS["nofile"]:
                 list_of_actions.append(auth_akk_action)
             menu.addActions(list_of_actions)
 
@@ -65,9 +67,13 @@ class Program(QMainWindow, Ui_MainWindow):
                 elif action == auth_akk_action:
                     self.auth_akk(akk)
             return True
-        elif event.type() == QEvent.ContextMenu and source is self.list_of_akks_widget and self.isEnabled():
+        elif (
+            event.type() == QEvent.ContextMenu
+            and source is self.list_of_akks_widget
+            and self.isEnabled()
+        ):
             menu = QMenu()
-            update_akks_action = QAction('Обновить все')
+            update_akks_action = QAction("Обновить все")
             menu.addAction(update_akks_action)
 
             if action := menu.exec_(event.globalPos()):
@@ -110,7 +116,7 @@ class Program(QMainWindow, Ui_MainWindow):
                 # TODO: разобраться когда заного конект
                 # например когда нет подключения включается механизм проверки
                 # соединения который работает постоянно
-                self.statusBar().showMessage('Нет подключения к интернету!')
+                self.statusBar().showMessage("Нет подключения к интернету!")
         self.reload_akks()
 
     def reload_akks(self):
@@ -121,7 +127,7 @@ class Program(QMainWindow, Ui_MainWindow):
             akk = QListWidgetItem(str(phone))
             akk.setBackground(STATUS_COLORS[status_name])
             self.list_of_akks_widget.addItem(akk)
-            if status_name == 'banned':
+            if status_name == "banned":
                 there_is_banned = True
         self.del_nwork_akks_btn.setEnabled(there_is_banned)
 
@@ -132,12 +138,16 @@ class Program(QMainWindow, Ui_MainWindow):
         pass
 
     def del_akk(self, akk: QListWidgetItem):
-        if check_akk_and_update(akk.text(), 'banned', self.connection) == 'banned':
+        if check_akk_and_update(akk.text(), "banned", self.connection) == "banned":
             if (
-                QMessageBox.question(self, 'Удалить аккаунт', 'Вы действительно хоттите удалить акккаунт?')
+                QMessageBox.question(
+                    self,
+                    "Удалить аккаунт",
+                    "Вы действительно хоттите удалить акккаунт?",
+                )
                 == QMessageBox.Yes
             ):
-                #TODO: удаление аккаунта как в других формах
+                # TODO: удаление аккаунта как в других формах
                 pass
         self.reload_akks()
 
@@ -146,7 +156,7 @@ class Program(QMainWindow, Ui_MainWindow):
         try:
             self.reauth_akk_form.set_akk(akk)
         except ConnectionError:
-            self.statusBar.showMessage('Нет подключения к интернету!')
+            self.statusBar.showMessage("Нет подключения к интернету!")
         self.reload_akks()
 
     def auth_akk(self, akk: QListWidgetItem):
@@ -154,7 +164,7 @@ class Program(QMainWindow, Ui_MainWindow):
         try:
             self.auth_akk_form.set_akk(akk)
         except ConnectionError:
-            self.statusBar.showMessage('Нет подключения к интернету!')
+            self.statusBar.showMessage("Нет подключения к интернету!")
         self.reload_akks()
 
     def load_tasks(self):
@@ -172,7 +182,7 @@ def except_hook(cls, exception, traceback):
     sys.__excepthook__(cls, exception, traceback)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     program = Program()
     program.show()
