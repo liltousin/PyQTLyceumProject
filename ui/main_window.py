@@ -4,19 +4,19 @@ import sys
 from add_akk_form import AddAkkForm
 from akk_info_form import AkkInfoForm
 from auth_akk_form import AuthAkkForm
+from compiled.Ui_main import Ui_MainWindow
 from PyQt6.QtCore import QEvent
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import (QApplication, QListWidgetItem, QMainWindow, QMenu,
                              QMessageBox)
 from reauth_akk_form import ReauthAkkForm
-from Ui_main import Ui_MainWindow
 
 from akk_status_funcs import check_akk_and_update
 from sql_functions import get_akks, setup_db
 from status_colors import STATUS_COLORS
 
 
-class Program(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -184,7 +184,7 @@ def except_hook(cls, exception, traceback):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    program = Program()
+    program = MainWindow()
     program.show()
     sys.excepthook = except_hook
     sys.exit(app.exec())
