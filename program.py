@@ -1,25 +1,21 @@
 import sqlite3
 import sys
 
-from PyQt6.QtCore import QEvent
-from PyQt6.QtGui import QAction
-from PyQt6.QtWidgets import (QApplication, QListWidgetItem, QMainWindow, QMenu,
-                             QMessageBox)
-
 from add_akk_form import AddAkkForm
 from akk_info_form import AkkInfoForm
-from akk_status_funcs import check_akk_and_update
 from auth_akk_form import AuthAkkForm
+from PyQt6.QtWidgets import QApplication
 from reauth_akk_form import ReauthAkkForm
-from sql_functions import get_akks, setup_db
 from status_colors import STATUS_COLORS
-from Ui_main import Ui_MainWindow
+
+from akk_status_funcs import check_akk_and_update
+from sql_functions import get_akks, setup_db
+from ui.main_window import MainWindow
 
 
-class Program(QMainWindow, Ui_MainWindow):
+class Program:
     def __init__(self):
-        super().__init__()
-        self.setupUi(self)
+        self.ui = MainWindow()
         self.connection = sqlite3.connect("db.sqlite")
         setup_db(self.connection)
         self.add_akk_form = AddAkkForm(self.connection)
@@ -34,6 +30,7 @@ class Program(QMainWindow, Ui_MainWindow):
         self.list_of_akks_widget.installEventFilter(self)
         self.list_of_akks_widget.itemDoubleClicked.connect(self.show_akk_info_form)
         self.update_akks()
+        # Запуск проверщика сети
 
     def eventFilter(self, source, event):
         if (
@@ -184,7 +181,7 @@ def except_hook(cls, exception, traceback):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    program = Program()
-    program.show()
+    program = MainWindow()
+
     sys.excepthook = except_hook
     sys.exit(app.exec())
